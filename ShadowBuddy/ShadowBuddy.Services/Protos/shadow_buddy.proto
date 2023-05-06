@@ -1,0 +1,69 @@
+﻿syntax = "proto3";
+
+package shadow_buddy.proto;
+
+option csharp_namespace = "ShadowBuddy.Service.Grpc";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service ShadowBuddyService{
+  rpc GetOperations(GetOperationsRequest) returns (GetOperationsResponse);
+  rpc GetCurrency(google.protobuf.Empty) returns (GetCurrencyResponse);
+  rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse);
+  rpc UpdateBalance(UpdateBalanceRequest) returns (google.protobuf.Empty);
+  rpc CreateAccount(CreateAccountRequest) returns(google.protobuf.Empty);
+  rpc CreateOperation(CreateOperationRequest) returns(google.protobuf.Empty);
+}
+
+message GetOperationsRequest{
+  int64 chat_id = 1;
+  google.protobuf.Timestamp moment = 2;
+}
+
+message GetOperationsResponse{
+  int64 id = 1;
+  int64 chat_id = 2;
+  int64 operation_type_id = 3;
+  float amount = 4;
+  int64 category_id = 5;
+  int64 comment = 6;
+  google.protobuf.Timestamp moment = 7;
+}
+
+message GetCurrencyResponse{
+  int64 id = 1;
+  string name = 2;
+  string short_name = 3;
+  string label = 4;
+}
+
+message GetBalanceRequest{
+  int64 chat_id = 1;
+}
+
+message GetBalanceResponse{
+  float balance = 1;
+}
+
+message UpdateBalanceRequest{
+  int64 chat_id = 1;
+  float amount = 2;
+}
+
+message CreateAccountRequest{
+  int64 chat_id = 1;
+  float balance = 2;
+  google.protobuf.Timestamp initial_date = 3;
+  int64 currency_id = 4;
+}
+
+message CreateOperationRequest{
+  int64 chat_id = 1;
+  int64 operation_type_id = 2;
+  float amount = 3;
+  int64 category_id = 4;
+  string comment = 5;
+  google.protobuf.Timestamp moment = 6;
+}
