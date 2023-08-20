@@ -7,6 +7,7 @@
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
         <LangVersion>default</LangVersion>
+        <RootNamespace>ShadowBuddy</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,9 +22,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ShadowBuddy.Domain\ShadowBuddy.Domain.csproj" />
-      <ProjectReference Include="..\ShadowBuddy.Infrastructure\ShadowBuddy.Infrastructure.csproj" />
-      <ProjectReference Include="..\ShadowBuddy.Services\ShadowBuddy.Services.csproj" />
+      <ProjectReference Include="..\ShadowPal.Domain\ShadowPal.Domain.csproj" />
+      <ProjectReference Include="..\ShadowPal.Infrastructure\ShadowPal.Infrastructure.csproj" />
+      <ProjectReference Include="..\ShadowPal.Services\ShadowPal.Services.csproj" />
     </ItemGroup>
 
 </Project>

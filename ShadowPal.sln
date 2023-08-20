@@ -1,18 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowBuddy", "src\ShadowBuddy\ShadowBuddy.csproj", "{ADC83D73-5674-4CA7-B6FF-87F3F29AC6A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowPal", "src\ShadowPal\ShadowPal.csproj", "{ADC83D73-5674-4CA7-B6FF-87F3F29AC6A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{759D8F73-BCB6-4B97-AB16-9B34CE138DB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowBuddy.Domain", "src\ShadowBuddy.Domain\ShadowBuddy.Domain.csproj", "{AB3DE296-7BDE-465F-8ABD-A98C7C81C4DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowPal.Domain", "src\ShadowPal.Domain\ShadowPal.Domain.csproj", "{AB3DE296-7BDE-465F-8ABD-A98C7C81C4DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowBuddy.Services", "src\ShadowBuddy.Services\ShadowBuddy.Services.csproj", "{A73D2422-0E75-4652-B4DF-136B6F4077C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowPal.Services", "src\ShadowPal.Services\ShadowPal.Services.csproj", "{A73D2422-0E75-4652-B4DF-136B6F4077C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowBuddy.Infrastructure", "src\ShadowBuddy.Infrastructure\ShadowBuddy.Infrastructure.csproj", "{E4687949-57CB-41D6-B2F6-9EDDE66D133B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowPal.Infrastructure", "src\ShadowPal.Infrastructure\ShadowPal.Infrastructure.csproj", "{E4687949-57CB-41D6-B2F6-9EDDE66D133B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0836B4E2-67E6-4527-82FC-D029693277D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowBuddy.Tests", "tests\ShadowBuddy.Tests\ShadowBuddy.Tests.csproj", "{666B1491-343E-4EFC-8ACF-8B1B9CB7D7B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowPal.Tests", "tests\ShadowPal.Tests\ShadowPal.Tests.csproj", "{666B1491-343E-4EFC-8ACF-8B1B9CB7D7B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

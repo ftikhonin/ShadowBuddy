@@ -1,14 +1,14 @@
 ﻿syntax = "proto3";
 
-package shadow_buddy.proto;
+package shadow_pal.proto;
 
-option csharp_namespace = "ShadowBuddy.Service.Grpc";
+option csharp_namespace = "ShadowPal.Service.Grpc";
 
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
-service ShadowBuddyService{
+service ShadowPalService{
   rpc GetOperations(GetOperationsRequest) returns (GetOperationsResponse);
   rpc GetCurrency(google.protobuf.Empty) returns (GetCurrencyResponse);
   rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse);

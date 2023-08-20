@@ -7,6 +7,7 @@
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
         <LangVersion>default</LangVersion>
+        <RootNamespace>ShadowPal.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace ShadowBuddy;
+namespace ShadowPal;
 
 public class Program
 {
