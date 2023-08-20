@@ -7,17 +7,26 @@
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
         <LangVersion>default</LangVersion>
-        <RootNamespace>ShadowBuddy</RootNamespace>
+        <RootNamespace>ShadowPal</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Calzolari.Grpc.AspNetCore.Validation" Version="6.3.0" />
       <PackageReference Include="Dapper" Version="2.0.123" />
       <PackageReference Include="Dapper.FluentMap" Version="2.0.0" />
+      <PackageReference Include="FluentAssertions" Version="6.8.0" />
       <PackageReference Include="FluentValidation" Version="11.5.2" />
       <PackageReference Include="Google.Protobuf" Version="3.23.0-rc3" />
       <PackageReference Include="Grpc.Core" Version="2.46.6" />
+      <PackageReference Include="Grpc.Tools" Version="2.57.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="MediatR" Version="12.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
       <PackageReference Include="Polly" Version="7.2.3" />
     </ItemGroup>
 
@@ -27,4 +36,20 @@
       <ProjectReference Include="..\ShadowPal.Services\ShadowPal.Services.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Config" />
+      <Folder Include="Validators" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Protobuf Include="..\ShadowPal.Services\Protos\account_processing.proto" GrpcServices="Server" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <None Remove="appsettings.json" />
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+    
 </Project>
