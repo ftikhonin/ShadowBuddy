@@ -1,8 +1,5 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using ShadowPal.Services;
-using Grpc.Core;
+﻿using Grpc.Core;
 using MediatR;
-using ShadowPal.Domain.Entities;
 using ShadowPal.Handlers;
 using ShadowPal.Service.Grpc;
 
@@ -20,18 +17,24 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
     public override async Task<GetOperationsResponse> GetOperations(GetOperationsRequest request,
         ServerCallContext context)
     {
-        var command = new GetOperationsQuery();
+        var command = new GetOperationsQuery(request.UserId, request.Moment);
         var response = await _mediator.Send(command, context.CancellationToken);
+
         //TODO: returns correct response
         return new GetOperationsResponse
         {
-            Id = 1,
-            OperationType = OperationType.Expense,
-            //TODO: float -> Decimal
-            Amount = 1,
-            CategoryId = 0,
-            Comment = 0,
-            Moment = new Timestamp()
+            Operations =
+            {
+                new Operation
+                {
+                    Id = 0,
+                    OperationType = OperationType.Expense,
+                    Amount = 100,
+                    CategoryId = 0,
+                    Comment = 0,
+                    Moment = null
+                }
+            }
         };
     }
 }

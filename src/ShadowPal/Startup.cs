@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using ShadowPal.Domain.Repositories;
 using ShadowPal.Infrastructure.Repositories;
+using ShadowPal.Interceptors;
 using ShadowPal.Services;
 
 namespace ShadowPal;
@@ -19,13 +21,13 @@ public class Startup
     public Startup(IConfiguration configuration) => _configuration = configuration;
 
     public void ConfigureServices(IServiceCollection services)
-    {   
+    {
         services.AddMediatR(options => options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         services.AddTransient<IAccountProcessingRepository, AccountProcessingRepository>();
         services.AddOptions();
         services.AddControllers();
-        services.AddGrpc();
-
+        services.AddGrpc(options => options.Interceptors.Add<GrpcResponseExceptionInterceptor>());
+        services.AddGrpcReflection();
         var connectionString = _configuration.GetConnectionString("SQLiteConnection");
         Console.WriteLine($"Connection String: {connectionString}");
     }

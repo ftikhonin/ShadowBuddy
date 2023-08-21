@@ -1,10 +1,16 @@
-﻿using MediatR;
+﻿using Google.Protobuf.WellKnownTypes;
+using MediatR;
 
 namespace ShadowPal.Handlers;
 
 public class GetOperationsQuery : IRequest<GetOperationsQueryResult>
 {
-    public GetOperationsQuery()
+    public long UserId { get; set; }
+    public DateTime Moment { get; set; }
+
+    public GetOperationsQuery(long userId, Timestamp moment)
     {
+        UserId = userId;
+        Moment = moment.ToDateTime();
     }
 }

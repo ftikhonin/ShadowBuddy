@@ -23,15 +23,26 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return new SqliteConnection(Configuration.GetConnectionString("SQLiteConnection"));
     }
 
-    public async Task<Operation[]> GetOperations(CancellationToken cancellationToken)
+    public async Task<Operation[]> GetOperations(long userId, DateTime moment, CancellationToken cancellationToken)
     {
-        var query = @"SELECT ID
-						     ,Amount
-						     ,substr(Moment,1,19) AS Moment
-					     FROM Operation";
+        const string query = @"SELECT o.ID
+						     ,o.Amount
+						     ,substr(o.Moment,1,19) AS Moment
+					     FROM Operation as o
+					     WHERE o.ChatID = @Id 
+							   AND substr(o.Moment,1,4) || substr(o.Moment,6,2) || substr(o.Moment,9,2) >= @Moment";
+
+        var param = new DynamicParameters(
+            new
+            {
+                Id = userId,
+                Moment = moment
+            }
+        );
+
         using var connection = CreateConnection();
-        
-        var result = await connection.QueryAsync<Operation>(query);
+
+        var result = await connection.QueryAsync<Operation>(query, param, commandType: CommandType.Text);
 
         return result.ToArray();
     }

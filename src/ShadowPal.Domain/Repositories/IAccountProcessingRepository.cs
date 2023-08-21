@@ -4,5 +4,5 @@ namespace ShadowPal.Domain.Repositories;
 
 public interface IAccountProcessingRepository
 {
-    Task<Operation[]> GetOperations(CancellationToken cancellationToken);
+    Task<Operation[]> GetOperations(long userId, DateTime moment, CancellationToken cancellationToken);
 }

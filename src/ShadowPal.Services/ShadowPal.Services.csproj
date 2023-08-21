@@ -13,6 +13,7 @@
         <PackageReference Include="Google.Api.CommonProtos" Version="2.9.0" />
         <PackageReference Include="Google.Protobuf" Version="3.23.0-rc3" />
         <PackageReference Include="Grpc.Core" Version="2.46.6" />
+        <PackageReference Include="Grpc.Reflection" Version="2.54.0" />
         <PackageReference Include="Grpc.Tools" Version="2.57.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,6 +23,9 @@
 
     <ItemGroup>
         <ProjectReference Include="..\ShadowPal.Domain\ShadowPal.Domain.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Protobuf Include="Protos/account_processing.proto" GrpcServices="Server" />
     </ItemGroup>
 
 </Project>
