@@ -1,6 +1,5 @@
 ﻿using Grpc.Core;
 using Grpc.Core.Interceptors;
-using Grpc.Core.Logging;
 using Microsoft.Extensions.Logging;
 using ShadowPal.Infrastructure.Exceptions;
 

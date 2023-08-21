@@ -19,22 +19,23 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
     {
         var command = new GetOperationsQuery(request.UserId, request.Moment);
         var response = await _mediator.Send(command, context.CancellationToken);
-
+        GetOperationsResponse result = new GetOperationsResponse() { };
+        
         //TODO: returns correct response
-        return new GetOperationsResponse
+        foreach (var row in response.Operations)
         {
-            Operations =
+            result.Operations.Add(new Operation
             {
-                new Operation
-                {
-                    Id = 0,
-                    OperationType = OperationType.Expense,
-                    Amount = 100,
-                    CategoryId = 0,
-                    Comment = 0,
-                    Moment = null
-                }
-            }
-        };
+                Id = 0,
+                OperationType = OperationType.Income,
+                Amount = (float) row.Amount,
+                CategoryId = 0,
+                Comment = row.Comment ?? "",
+                Moment = null
+            });
+        }
+
+
+        return result;
     }
 }

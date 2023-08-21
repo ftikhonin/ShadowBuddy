@@ -31,7 +31,7 @@ message Operation{
   OperationType operation_type = 2;
   float amount = 3;
   int64 category_id = 4;
-  int64 comment = 5;
+  string comment = 5;
   google.protobuf.Timestamp moment = 6;
 }
 

@@ -1,12 +1,9 @@
-﻿using System.Net;
-using System.Reflection;
-using Calzolari.Grpc.AspNetCore.Validation;
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using ShadowPal.Domain.Repositories;
 using ShadowPal.Infrastructure.Repositories;
 using ShadowPal.Interceptors;
@@ -28,8 +25,6 @@ public class Startup
         services.AddControllers();
         services.AddGrpc(options => options.Interceptors.Add<GrpcResponseExceptionInterceptor>());
         services.AddGrpcReflection();
-        var connectionString = _configuration.GetConnectionString("SQLiteConnection");
-        Console.WriteLine($"Connection String: {connectionString}");
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
