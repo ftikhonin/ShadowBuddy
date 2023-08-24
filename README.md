@@ -27,5 +27,5 @@ This microservice uses gRPC for communication between clients and the server. Th
 ## Configuration
 You can configure the microservice by modifying the appsettings.json file. Configuration options include database connection strings, external service URLs, and more.
 ## Testing
-Unit tests and integration tests are located in the tests directory. You can run tests using dotnet test.
+Unit tests and integration tests are located in the tests directory. You can run tests using ```dotnet test```.
 
