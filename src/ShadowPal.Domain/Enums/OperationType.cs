@@ -2,6 +2,6 @@
 
 public enum OperationType
 {
-    Income = 1,
-    Expense = 2
+    Expense = 1,
+    Income = 2
 }

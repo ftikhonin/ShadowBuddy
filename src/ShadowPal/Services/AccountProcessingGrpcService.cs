@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using MediatR;
 using ShadowPal.Handlers;
 using ShadowPal.Service.Grpc;
@@ -19,23 +20,35 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
     {
         var command = new GetOperationsQuery(request.UserId, request.Moment);
         var response = await _mediator.Send(command, context.CancellationToken);
-        GetOperationsResponse result = new GetOperationsResponse() { };
-        
-        //TODO: returns correct response
+
+        GetOperationsResponse result = new GetOperationsResponse();
+
         foreach (var row in response.Operations)
         {
             result.Operations.Add(new Operation
             {
-                Id = 0,
-                OperationType = OperationType.Income,
+                Id = row.Id,
+                AccountId = row.AccountId,
+                OperationTypeId = row.OperationTypeId,
+                CurrencyId = row.CurrencyId,
                 Amount = (float) row.Amount,
-                CategoryId = 0,
+                CategoryId = row.CategoryId,
                 Comment = row.Comment ?? "",
-                Moment = null
+                Moment = row.Moment.ToUniversalTime().ToTimestamp()
             });
         }
 
-
         return result;
+    }
+
+    public override async Task<Empty> CreateAccount(CreateAccountRequest request,
+        ServerCallContext context)
+    {
+        var command = new CreateAccountCommand(request.UserId, request.Name, request.Balance, request.InitialDate,
+            request.CurrencyId);
+
+        await _mediator.Send(command, context.CancellationToken);
+
+        return new Empty();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using Grpc.Core.Interceptors;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using ShadowPal.Infrastructure.Exceptions;
 
@@ -20,6 +21,10 @@ public class GrpcResponseExceptionInterceptor : Interceptor
         try
         {
             return await continuation(request, context);
+        }
+        catch (SqliteException e)
+        {
+            throw new RpcException(new Status(StatusCode.Internal, e.Message, e));
         }
         catch (NotFoundException e)
         {
