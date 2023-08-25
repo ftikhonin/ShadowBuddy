@@ -1,4 +1,4 @@
-﻿<img src="https://user-images.githubusercontent.com/44977760/263112420-72722660-3c01-4cc7-8ac0-0a35f2959569.png" alt="ShadowPal" width="10%">
+﻿<img src="https://user-images.githubusercontent.com/44977760/263112420-72722660-3c01-4cc7-8ac0-0a35f2959569.png" alt="ShadowBuddyService" width="10%">
 
 # ShadowBuddyService
 
@@ -9,7 +9,7 @@ scalability.
 
 ## Introduction
 
-ShadowPalService is responsible for managing budget-related operations within your application. It provides gRPC
+ShadowBuddyService is responsible for managing budget-related operations within your application. It provides gRPC
 handlers that allow users to create, update, delete, and retrieve budget information. This microservice ensures
 separation of concerns and can be easily integrated with other microservices.
 
@@ -34,7 +34,7 @@ separation of concerns and can be easily integrated with other microservices.
 
 ## Usage
 
-To use the ShadowPalService, you can utilize the generated gRPC client libraries in your programming language. These
+To use the ShadowBuddyService, you can utilize the generated gRPC client libraries in your programming language. These
 client libraries provide a convenient way to interact with the microservice.
 
 ## CQRS
