@@ -1,5 +1,4 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using MediatR;
+﻿using MediatR;
 using ShadowPal.Handlers;
 
 namespace ShadowPal.Tests.Handlers;
@@ -17,7 +16,7 @@ public class AccountProcessingGrpcServiceTests
     public void CreateAccount_handles_properly()
     {
         //Arrange
-        var command = new CreateAccountCommand(1, "Test", 12.34F, DateTime.UtcNow.ToTimestamp(), 1);
+        var command = new CreateAccountCommand(1, "Test", 12.34F, DateTime.UtcNow, 1);
         //Act
         var exception = Record.ExceptionAsync(() => _mediator.Object.Send(command, CancellationToken.None));
         //Assert

@@ -44,8 +44,41 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
     public override async Task<Empty> CreateAccount(CreateAccountRequest request,
         ServerCallContext context)
     {
-        var command = new CreateAccountCommand(request.UserId, request.Name, request.Balance, request.InitialDate,
+        var command = new CreateAccountCommand(request.UserId, request.Name, request.Balance,
+            request.InitialDate.ToDateTime(),
             request.CurrencyId);
+
+        await _mediator.Send(command, context.CancellationToken);
+
+        return new Empty();
+    }
+
+    public override async Task<Empty> DeleteAccount(DeleteAccountRequest request,
+        ServerCallContext context)
+    {
+        var command = new DeleteAccountCommand(request.AccountId);
+
+        await _mediator.Send(command, context.CancellationToken);
+
+        return new Empty();
+    }
+
+    public override async Task<Empty> CreateOperation(CreateOperationRequest request,
+        ServerCallContext context)
+    {
+        var command = new CreateOperationCommand(request.AccountId, request.OperationTypeId, request.Amount,
+            request.CategoryId,
+            request.Comment, request.Moment.ToDateTime());
+
+        await _mediator.Send(command, context.CancellationToken);
+
+        return new Empty();
+    }
+
+    public override async Task<Empty> DeleteOperation(DeleteOperationRequest request,
+        ServerCallContext context)
+    {
+        var command = new DeleteOperationCommand(request.OperationId);
 
         await _mediator.Send(command, context.CancellationToken);
 

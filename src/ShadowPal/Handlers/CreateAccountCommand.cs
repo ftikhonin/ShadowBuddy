@@ -11,12 +11,12 @@ public class CreateAccountCommand : IRequest
     public DateTime InitialDate { get; set; }
     public long CurrencyId { get; set; }
 
-    public CreateAccountCommand(long userId, string name, float balance, Timestamp initialDate, long currencyId)
+    public CreateAccountCommand(long userId, string name, float balance, DateTime initialDate, long currencyId)
     {
         UserId = userId;
         Name = name;
         Balance = balance;
-        InitialDate = initialDate.ToDateTime();
+        InitialDate = initialDate;
         CurrencyId = currencyId;
     }
 }

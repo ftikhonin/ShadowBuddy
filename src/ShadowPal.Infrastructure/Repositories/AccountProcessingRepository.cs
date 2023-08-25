@@ -66,7 +66,71 @@ public class AccountProcessingRepository : IAccountProcessingRepository
                 InitialDate = initialDate
             }
         );
-        
+
+        using var connection = CreateConnection();
+        await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
+    }
+
+    public async Task DeleteAccount(
+        long accountId,
+        CancellationToken cancellationToken)
+    {
+        const string query = @"DELETE FROM Account
+                                WHERE Id = @AccountId";
+
+        var param = new DynamicParameters(
+            new
+            {
+                AccountId = accountId
+            }
+        );
+
+        using var connection = CreateConnection();
+        await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
+    }
+
+    public async Task CreateOperation(
+        long accountId,
+        long operationTypeId,
+        float amount,
+        long categoryId,
+        string comment,
+        DateTime moment,
+        CancellationToken cancellationToken)
+    {
+        const string query = @"INSERT INTO Operation(AccountId, OperationTypeId, Amount, CategoryId, Comment, Moment)
+                                VALUES(@AccountId, @OperationTypeId, @Amount, @CategoryId, @Comment, @Moment)";
+
+        var param = new DynamicParameters(
+            new
+            {
+                AccountId = accountId,
+                OperationTypeId = operationTypeId,
+                Amount = amount,
+                CategoryId = categoryId,
+                Comment = comment,
+                Moment = moment
+            }
+        );
+
+        using var connection = CreateConnection();
+        await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
+    }
+
+    public async Task DeleteOperation(
+        long operationId,
+        CancellationToken cancellationToken)
+    {
+        const string query = @"DELETE FROM Operation
+                                WHERE Id = @OperationId";
+
+        var param = new DynamicParameters(
+            new
+            {
+                OperationId = operationId
+            }
+        );
+
         using var connection = CreateConnection();
         await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
     }

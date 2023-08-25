@@ -35,10 +35,12 @@ public class GetOperationsQueryHandlerTests
                     Comment = "test"
                 }
             });
+        
         //Act
         var handler = new GetOperationsQueryHandler(_accountProcessingRepositoryMock.Object);
         var subject = handler.Handle(new GetOperationsQuery(1234, DateTime.UtcNow.ToTimestamp()),
             CancellationToken.None);
+        
         //Assert
         Assert.NotEmpty(subject.Result.Operations);
     }

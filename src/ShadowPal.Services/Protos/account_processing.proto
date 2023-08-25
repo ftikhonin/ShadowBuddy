@@ -15,7 +15,9 @@ service AccountProcessingService{
   rpc GetUserAccounts(GetUserAccountsRequest) returns (GetUserAccountsResponse);
   rpc UpdateBalance(UpdateBalanceRequest) returns (google.protobuf.Empty);
   rpc CreateAccount(CreateAccountRequest) returns(google.protobuf.Empty);
+  rpc DeleteAccount(DeleteAccountRequest) returns(google.protobuf.Empty);
   rpc CreateOperation(CreateOperationRequest) returns(google.protobuf.Empty);
+  rpc DeleteOperation(DeleteOperationRequest) returns(google.protobuf.Empty);
 }
 
 message GetOperationsRequest{
@@ -81,11 +83,18 @@ message CreateAccountRequest{
   int64 currency_id = 5;
 }
 
+message DeleteAccountRequest{
+  int64 account_id = 1;
+}
 message CreateOperationRequest{
-  int64 user_id = 1;
+  int64 account_id = 1;
   int64 operation_type_id = 2;
   float amount = 3;
   int64 category_id = 4;
   string comment = 5;
   google.protobuf.Timestamp moment = 6;
+}
+
+message DeleteOperationRequest{
+  int64 operation_id = 1;
 }
