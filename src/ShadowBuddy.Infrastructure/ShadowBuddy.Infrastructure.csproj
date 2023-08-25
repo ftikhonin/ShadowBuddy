@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+        <LangVersion>default</LangVersion>
+        <RootNamespace>ShadowBuddy.Infrastructure</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.0.123" />
+        <PackageReference Include="Dapper.FluentMap" Version="2.0.0" />
+        <PackageReference Include="Google.Api.CommonProtos" Version="2.9.0" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ShadowBuddy.Domain\ShadowBuddy.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

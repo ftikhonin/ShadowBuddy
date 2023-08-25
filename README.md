@@ -1,8 +1,8 @@
 ﻿<img src="https://user-images.githubusercontent.com/44977760/263112420-72722660-3c01-4cc7-8ac0-0a35f2959569.png" alt="ShadowPal" width="10%">
 
-# ShadowPalService
+# ShadowBuddyService
 
-Welcome to the ShadowPalService README! This microservice is designed to handle budgeting and financial management tasks
+Welcome to the ShadowBuddyService README! This microservice is designed to handle budgeting and financial management tasks
 as part of a larger system. It provides gRPC API endpoints that allow users to perform various budget operations. This
 microservice utilizes CQRS architecture to separate command and query responsibilities, improving performance and
 scalability.
