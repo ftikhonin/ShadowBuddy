@@ -5,12 +5,12 @@ namespace ShadowBuddy.Handlers;
 
 public class GetOperationsQuery : IRequest<GetOperationsQueryResult>
 {
-    public long UserId { get; set; }
+    public long AccountId { get; set; }
     public DateTime Moment { get; set; }
 
-    public GetOperationsQuery(long userId, Timestamp moment)
+    public GetOperationsQuery(long accountId, Timestamp moment)
     {
-        UserId = userId;
+        AccountId = accountId;
         Moment = moment.ToDateTime();
     }
 }

@@ -21,12 +21,11 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return new SqliteConnection(Configuration.GetConnectionString("SQLiteConnection"));
     }
 
-    public async Task<Operation[]> GetOperations(long userId, DateTime moment, CancellationToken cancellationToken)
+    public async Task<Operation[]> GetOperations(long accountId, DateTime moment, CancellationToken cancellationToken)
     {
         const string query = @"SELECT o.ID
                                      ,o.AccountId
                                      ,o.OperationTypeId
-                                     ,o.CurrencyId
 						             ,o.Amount
                                      ,o.CategoryId
                                      ,o.Comment
@@ -38,7 +37,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         var param = new DynamicParameters(
             new
             {
-                Id = userId,
+                Id = accountId,
                 Moment = moment
             }
         );

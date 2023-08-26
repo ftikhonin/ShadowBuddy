@@ -17,11 +17,11 @@ public class GetOperationsQueryHandler : IRequestHandler<GetOperationsQuery, Get
     public async Task<GetOperationsQueryResult> Handle(GetOperationsQuery request, CancellationToken cancellationToken)
     {
         var operations =
-            await _accountProcessingRepository.GetOperations(request.UserId, request.Moment, cancellationToken);
+            await _accountProcessingRepository.GetOperations(request.AccountId, request.Moment, cancellationToken);
         
         if (!operations.Any())
         {
-            throw new NotFoundException($"Operations not found. UserId = {request.UserId}, Moment = {request.Moment}");
+            throw new NotFoundException($"Operations not found. AccountId = {request.AccountId}, Moment = {request.Moment}");
         }
 
 

@@ -4,7 +4,7 @@ namespace ShadowBuddy.Domain.Repositories;
 
 public interface IAccountProcessingRepository
 {
-    Task<Operation[]> GetOperations(long userId, DateTime moment, CancellationToken cancellationToken);
+    Task<Operation[]> GetOperations(long accountId, DateTime moment, CancellationToken cancellationToken);
 
     Task CreateAccount(
         long userId,

@@ -18,7 +18,7 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
     public override async Task<GetOperationsResponse> GetOperations(GetOperationsRequest request,
         ServerCallContext context)
     {
-        var command = new GetOperationsQuery(request.UserId, request.Moment);
+        var command = new GetOperationsQuery(request.AccountId, request.Moment);
         var response = await _mediator.Send(command, context.CancellationToken);
 
         GetOperationsResponse result = new GetOperationsResponse();
@@ -30,7 +30,6 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
                 Id = row.Id,
                 AccountId = row.AccountId,
                 OperationTypeId = row.OperationTypeId,
-                CurrencyId = row.CurrencyId,
                 Amount = (float) row.Amount,
                 CategoryId = row.CategoryId,
                 Comment = row.Comment ?? "",

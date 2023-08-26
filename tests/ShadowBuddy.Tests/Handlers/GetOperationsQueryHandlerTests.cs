@@ -28,7 +28,6 @@ public class GetOperationsQueryHandlerTests
                     Id = 1,
                     AccountId = 2,
                     OperationTypeId = 3,
-                    CurrencyId = 4,
                     Amount = 5L,
                     CategoryId = 6,
                     Moment = DateTime.UtcNow,
