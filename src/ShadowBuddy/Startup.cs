@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Calzolari.Grpc.AspNetCore.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ using ShadowBuddy.Domain.Repositories;
 using ShadowBuddy.Infrastructure.Repositories;
 using ShadowBuddy.Interceptors;
 using ShadowBuddy.Services;
+using ShadowBuddy.Validators;
 
 namespace ShadowBuddy;
 
@@ -23,7 +25,13 @@ public class Startup
         services.AddTransient<IAccountProcessingRepository, AccountProcessingRepository>();
         services.AddOptions();
         services.AddControllers();
-        services.AddGrpc(options => options.Interceptors.Add<GrpcResponseExceptionInterceptor>());
+        services.AddGrpcValidation();
+        services.AddValidator<CreateOperationRequestValidator>();
+        services.AddGrpc(options =>
+        {
+            options.Interceptors.Add<GrpcResponseExceptionInterceptor>();
+            options.EnableMessageValidation();
+        });
         services.AddGrpcReflection();
     }
 

@@ -14,12 +14,29 @@ public interface IAccountProcessingRepository
         long currencyId,
         CancellationToken cancellationToken);
 
+    Task UpdateAccount(
+        long accountId,
+        string name,
+        float balance,
+        DateTime initialDate,
+        long currencyId,
+        CancellationToken cancellationToken);
+
     Task DeleteAccount(
         long accountId,
         CancellationToken cancellationToken);
 
     Task CreateOperation(
         long accountId,
+        long operationTypeId,
+        float amount,
+        long categoryId,
+        string comment,
+        DateTime moment,
+        CancellationToken cancellationToken);
+
+    Task UpdateOperation(
+        long operationId,
         long operationTypeId,
         float amount,
         long categoryId,

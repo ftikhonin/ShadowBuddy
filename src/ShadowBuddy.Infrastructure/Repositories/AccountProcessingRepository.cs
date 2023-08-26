@@ -69,6 +69,31 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         using var connection = CreateConnection();
         await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
     }
+    
+    public async Task UpdateAccount(long accountId, string name, float balance, DateTime initialDate, long currencyId,
+        CancellationToken cancellationToken)
+    {
+        const string query = @"UPDATE Account
+                               SET CurrencyId = @CurrencyId, 
+                                   Balance = @Balance, 
+                                   Name = @Name, 
+                                   Moment = @InitialDate
+                                WHERE Id = @AccountId";
+
+        var param = new DynamicParameters(
+            new
+            {
+                AccountId = accountId,
+                CurrencyId = currencyId,
+                Balance = balance,
+                Name = name,
+                InitialDate = initialDate
+            }
+        );
+
+        using var connection = CreateConnection();
+        await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
+    }
 
     public async Task DeleteAccount(
         long accountId,
@@ -104,6 +129,39 @@ public class AccountProcessingRepository : IAccountProcessingRepository
             new
             {
                 AccountId = accountId,
+                OperationTypeId = operationTypeId,
+                Amount = amount,
+                CategoryId = categoryId,
+                Comment = comment,
+                Moment = moment
+            }
+        );
+
+        using var connection = CreateConnection();
+        await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
+    }
+    
+    public async Task UpdateOperation(
+        long operationId,
+        long operationTypeId,
+        float amount,
+        long categoryId,
+        string comment,
+        DateTime moment,
+        CancellationToken cancellationToken)
+    {
+        const string query = @"UPDATE Operation
+                               SET OperationTypeId = @OperationTypeId,
+                                   Amount = @Amount, 
+                                   CategoryId = @CategoryId, 
+                                   Comment = @Comment, 
+                                   Moment = @Moment
+                               WHERE ID = @OperationId";
+
+        var param = new DynamicParameters(
+            new
+            {
+                OperationId = operationId,
                 OperationTypeId = operationTypeId,
                 Amount = amount,
                 CategoryId = categoryId,
