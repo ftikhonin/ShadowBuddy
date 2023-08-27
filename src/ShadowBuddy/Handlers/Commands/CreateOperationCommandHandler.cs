@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using ShadowBuddy.Domain.Repositories;
 
-namespace ShadowBuddy.Handlers;
+namespace ShadowBuddy.Handlers.Commands;
 
 public class CreateOperationCommandHandler : IRequestHandler<CreateOperationCommand>
 {

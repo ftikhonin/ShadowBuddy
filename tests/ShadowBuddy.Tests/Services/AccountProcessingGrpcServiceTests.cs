@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ShadowBuddy.Handlers;
+using ShadowBuddy.Handlers.Commands;
 
 namespace ShadowBuddy.Tests.Handlers;
 

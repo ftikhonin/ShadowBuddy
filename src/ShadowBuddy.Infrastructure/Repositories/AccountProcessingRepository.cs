@@ -49,6 +49,24 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return result.ToArray();
     }
 
+    public async Task<float> GetAccountBalance(long accountId, CancellationToken cancellationToken)
+    {
+        const string query = @"SELECT IFNULL(SUM(o.Amount), 0)                                  
+					            FROM Operation as o
+					            WHERE o.AccountId = @Id";
+
+        var param = new DynamicParameters(
+            new
+            {
+                Id = accountId
+            }
+        );
+
+        using var connection = CreateConnection();
+
+        return await connection.QueryFirstOrDefaultAsync<float>(query, param, commandType: CommandType.Text);
+    }
+
     public async Task CreateAccount(long userId, string name, float balance, DateTime initialDate, long currencyId,
         CancellationToken cancellationToken)
     {
@@ -69,7 +87,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         using var connection = CreateConnection();
         await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
     }
-    
+
     public async Task UpdateAccount(long accountId, string name, float balance, DateTime initialDate, long currencyId,
         CancellationToken cancellationToken)
     {
@@ -140,7 +158,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         using var connection = CreateConnection();
         await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
     }
-    
+
     public async Task UpdateOperation(
         long operationId,
         long operationTypeId,
@@ -167,6 +185,27 @@ public class AccountProcessingRepository : IAccountProcessingRepository
                 CategoryId = categoryId,
                 Comment = comment,
                 Moment = moment
+            }
+        );
+
+        using var connection = CreateConnection();
+        await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
+    }
+
+    public async Task UpdateAccountBalance(
+        long accountId,
+        float amount,
+        CancellationToken cancellationToken)
+    {
+        const string query = @"UPDATE Account
+                               SET Balance = @Amount
+                               WHERE ID = @AccountId";
+
+        var param = new DynamicParameters(
+            new
+            {
+                AccountId = accountId,
+                Amount = amount
             }
         );
 

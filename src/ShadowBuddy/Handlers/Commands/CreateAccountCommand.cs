@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ShadowBuddy.Handlers;
+namespace ShadowBuddy.Handlers.Commands;
 
 public class CreateAccountCommand : IRequest
 {

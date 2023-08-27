@@ -1,7 +1,6 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using MediatR;
+﻿using MediatR;
 
-namespace ShadowBuddy.Handlers;
+namespace ShadowBuddy.Handlers.Commands;
 
 public class DeleteOperationCommand : IRequest
 {

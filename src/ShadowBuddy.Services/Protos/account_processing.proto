@@ -129,12 +129,13 @@ message GetOperationResponse{
 }
 
 message UpdateOperationRequest{
-  int64 operation_id = 1;
-  int64 operation_type_id = 2;
-  float amount = 3;
-  int64 category_id = 4;
-  string comment = 5;
-  google.protobuf.Timestamp moment = 6;
+  int64 account_id = 1;
+  int64 operation_id = 2;
+  int64 operation_type_id = 3;
+  float amount = 4;
+  int64 category_id = 5;
+  string comment = 6;
+  google.protobuf.Timestamp moment = 7;
 }
 
 message DeleteOperationRequest{

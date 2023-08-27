@@ -1,9 +1,7 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using MediatR;
+﻿using MediatR;
 using ShadowBuddy.Domain.Repositories;
-using ShadowBuddy.Infrastructure.Exceptions;
 
-namespace ShadowBuddy.Handlers;
+namespace ShadowBuddy.Handlers.Commands;
 
 public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand>
 {

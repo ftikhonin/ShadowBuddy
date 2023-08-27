@@ -2,6 +2,8 @@
 using Grpc.Core;
 using MediatR;
 using ShadowBuddy.Handlers;
+using ShadowBuddy.Handlers.Commands;
+using ShadowBuddy.Handlers.Queries;
 using ShadowBuddy.Service.Grpc;
 
 namespace ShadowBuddy.Services;
@@ -89,7 +91,8 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
     public override async Task<Empty> UpdateOperation(UpdateOperationRequest request,
         ServerCallContext context)
     {
-        var command = new UpdateOperationCommand(request.OperationId, request.OperationTypeId, request.Amount,
+        var command = new UpdateOperationCommand(request.AccountId, request.OperationId, request.OperationTypeId,
+            request.Amount,
             request.CategoryId,
             request.Comment, request.Moment.ToDateTime());
 

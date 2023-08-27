@@ -21,12 +21,16 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddMediatR(options => options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddMediatR(options =>
+        {
+            options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        });
         services.AddTransient<IAccountProcessingRepository, AccountProcessingRepository>();
         services.AddOptions();
         services.AddControllers();
         services.AddGrpcValidation();
         services.AddValidator<CreateOperationRequestValidator>();
+        services.AddValidator<UpdateOperationRequestValidator>();
         services.AddGrpc(options =>
         {
             options.Interceptors.Add<GrpcResponseExceptionInterceptor>();

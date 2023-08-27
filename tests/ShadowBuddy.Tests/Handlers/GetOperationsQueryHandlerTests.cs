@@ -2,6 +2,7 @@
 using ShadowBuddy.Domain.Entities;
 using ShadowBuddy.Domain.Repositories;
 using ShadowBuddy.Handlers;
+using ShadowBuddy.Handlers.Queries;
 using ShadowBuddy.Infrastructure.Repositories;
 
 namespace ShadowBuddy.Tests.Handlers;

@@ -2,7 +2,7 @@
 using ShadowBuddy.Domain.Repositories;
 using ShadowBuddy.Infrastructure.Exceptions;
 
-namespace ShadowBuddy.Handlers;
+namespace ShadowBuddy.Handlers.Queries;
 
 public class GetOperationsQueryHandler : IRequestHandler<GetOperationsQuery, GetOperationsQueryResult>
 {

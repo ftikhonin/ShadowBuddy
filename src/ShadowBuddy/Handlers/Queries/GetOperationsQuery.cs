@@ -1,7 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using MediatR;
 
-namespace ShadowBuddy.Handlers;
+namespace ShadowBuddy.Handlers.Queries;
 
 public class GetOperationsQuery : IRequest<GetOperationsQueryResult>
 {

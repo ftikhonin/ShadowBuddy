@@ -5,6 +5,7 @@ namespace ShadowBuddy.Domain.Repositories;
 public interface IAccountProcessingRepository
 {
     Task<Operation[]> GetOperations(long accountId, DateTime moment, CancellationToken cancellationToken);
+    Task<float> GetAccountBalance(long accountId, CancellationToken cancellationToken);
 
     Task CreateAccount(
         long userId,
@@ -42,6 +43,11 @@ public interface IAccountProcessingRepository
         long categoryId,
         string comment,
         DateTime moment,
+        CancellationToken cancellationToken);
+    
+    Task UpdateAccountBalance(
+        long accountId,
+        float amount,
         CancellationToken cancellationToken);
 
     Task DeleteOperation(
