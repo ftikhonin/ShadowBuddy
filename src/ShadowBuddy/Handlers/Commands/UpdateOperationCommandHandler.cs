@@ -16,18 +16,9 @@ public class UpdateOperationCommandHandler : IRequestHandler<UpdateOperationComm
 
     public async Task Handle(UpdateOperationCommand request, CancellationToken cancellationToken)
     {
-        using (var transactionScope = new TransactionScope())
-        {
-            await _accountProcessingRepository.UpdateOperation(request.OperationId, request.OperationTypeId,
-                request.Amount,
-                request.CategoryId, request.Comment, request.Moment, cancellationToken);
-
-            var balance = _accountProcessingRepository.GetAccountBalance(request.AccountId, cancellationToken).Result;
-
-            await _accountProcessingRepository.UpdateAccountBalance(request.AccountId, balance,
-                cancellationToken);
-
-            transactionScope.Complete();
-        }
+        await _accountProcessingRepository.UpdateOperation(request.AccountId, request.OperationId,
+            request.OperationTypeId,
+            request.Amount,
+            request.CategoryId, request.Comment, request.Moment, cancellationToken);
     }
 }

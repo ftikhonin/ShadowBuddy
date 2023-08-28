@@ -1,4 +1,5 @@
-﻿using ShadowBuddy.Domain.Entities;
+﻿using System.Data;
+using ShadowBuddy.Domain.Entities;
 
 namespace ShadowBuddy.Domain.Repositories;
 
@@ -37,6 +38,7 @@ public interface IAccountProcessingRepository
         CancellationToken cancellationToken);
 
     Task UpdateOperation(
+        long accountId,
         long operationId,
         long operationTypeId,
         float amount,
@@ -44,11 +46,15 @@ public interface IAccountProcessingRepository
         string comment,
         DateTime moment,
         CancellationToken cancellationToken);
-    
+
     Task UpdateAccountBalance(
         long accountId,
         float amount,
         CancellationToken cancellationToken);
+
+    Task UpdateAccountBalance(
+        long accountId,
+        IDbConnection connection);
 
     Task DeleteOperation(
         long operationId,

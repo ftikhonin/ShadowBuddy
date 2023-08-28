@@ -117,8 +117,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         long accountId,
         CancellationToken cancellationToken)
     {
-        const string query = @"DELETE FROM Account
-                                WHERE Id = @AccountId";
+        const string query = @"DELETE FROM Account WHERE Id = @AccountId";
 
         var param = new DynamicParameters(
             new
@@ -160,6 +159,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
     }
 
     public async Task UpdateOperation(
+        long accountId,
         long operationId,
         long operationTypeId,
         float amount,
@@ -168,14 +168,6 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         DateTime moment,
         CancellationToken cancellationToken)
     {
-        const string query = @"UPDATE Operation
-                               SET OperationTypeId = @OperationTypeId,
-                                   Amount = @Amount, 
-                                   CategoryId = @CategoryId, 
-                                   Comment = @Comment, 
-                                   Moment = @Moment
-                               WHERE ID = @OperationId";
-
         var param = new DynamicParameters(
             new
             {
@@ -184,12 +176,60 @@ public class AccountProcessingRepository : IAccountProcessingRepository
                 Amount = amount,
                 CategoryId = categoryId,
                 Comment = comment,
-                Moment = moment
+                Moment = moment,
+                AccountId = accountId
             }
         );
 
         using var connection = CreateConnection();
-        await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
+        connection.Open();
+
+        using var trans = connection.BeginTransaction();
+        try
+        {
+            await connection.ExecuteAsync(
+                @"UPDATE Operation
+                        SET OperationTypeId = @OperationTypeId,
+                            Amount = @Amount, 
+                            CategoryId = @CategoryId, 
+                            Comment = @Comment, 
+                            Moment = @Moment
+                      WHERE ID = @OperationId",
+                param,
+                commandType: CommandType.Text);
+
+            await UpdateAccountBalance(accountId, connection);
+            trans.Commit();
+        }
+        catch (Exception)
+        {
+            trans.Rollback();
+            throw;
+        }
+    }
+
+    public async Task UpdateAccountBalance(
+        long accountId,
+        IDbConnection connection)
+    {
+        var param = new DynamicParameters(
+            new
+            {
+                AccountId = accountId
+            }
+        );
+
+        var balance = connection.QueryFirstOrDefault<float>(
+            "SELECT IFNULL(SUM(Amount), 0) FROM Operation WHERE AccountId = @AccountId",
+            param,
+            commandType: CommandType.Text);
+
+        param.Add("Balance", balance);
+
+        await connection.ExecuteAsync(
+            "UPDATE Account SET Balance = @Balance WHERE ID = @AccountId",
+            param,
+            commandType: CommandType.Text);
     }
 
     public async Task UpdateAccountBalance(
