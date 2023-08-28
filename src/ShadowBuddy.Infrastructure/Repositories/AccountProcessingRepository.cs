@@ -23,16 +23,9 @@ public class AccountProcessingRepository : IAccountProcessingRepository
 
     public async Task<Operation[]> GetOperations(long accountId, DateTime moment, CancellationToken cancellationToken)
     {
-        const string query = @"SELECT o.ID
-                                     ,o.AccountId
-                                     ,o.OperationTypeId
-						             ,o.Amount
-                                     ,o.CategoryId
-                                     ,o.Comment
-						             ,substr(o.Moment,1,19) AS Moment
-					     FROM Operation as o
-					     WHERE o.AccountId = @Id 
-							   AND substr(o.Moment,1,4) || substr(o.Moment,6,2) || substr(o.Moment,9,2) >= @Moment";
+        const string query = @"SELECT ID, AccountId, OperationTypeId, Amount, CategoryId, Comment, substr(Moment, 1, 19) AS Moment
+					             FROM Operation
+					            WHERE AccountId = @Id AND substr(Moment,1,4) || substr(Moment,6,2) || substr(Moment,9,2) >= @Moment";
 
         var param = new DynamicParameters(
             new
@@ -51,9 +44,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
 
     public async Task<float> GetAccountBalance(long accountId, CancellationToken cancellationToken)
     {
-        const string query = @"SELECT IFNULL(SUM(o.Amount), 0)                                  
-					            FROM Operation as o
-					            WHERE o.AccountId = @Id";
+        const string query = @"SELECT IFNULL(SUM(o.Amount), 0) FROM Operation as o WHERE o.AccountId = @Id";
 
         var param = new DynamicParameters(
             new
@@ -65,6 +56,23 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         using var connection = CreateConnection();
 
         return await connection.QueryFirstOrDefaultAsync<float>(query, param, commandType: CommandType.Text);
+    }
+
+    public async Task<Operation> GetOperation(long operationId, CancellationToken cancellationToken)
+    {
+        const string query =
+            @"SELECT Id, AccountId, OperationTypeId, Amount, CategoryId, Comment, Moment FROM Operation WHERE Id = @Id";
+
+        var param = new DynamicParameters(
+            new
+            {
+                Id = operationId
+            }
+        );
+
+        using var connection = CreateConnection();
+
+        return await connection.QueryFirstOrDefaultAsync<Operation>(query, param, commandType: CommandType.Text);
     }
 
     public async Task CreateAccount(long userId, string name, float balance, DateTime initialDate, long currencyId,
@@ -232,42 +240,37 @@ public class AccountProcessingRepository : IAccountProcessingRepository
             commandType: CommandType.Text);
     }
 
-    public async Task UpdateAccountBalance(
-        long accountId,
-        float amount,
-        CancellationToken cancellationToken)
-    {
-        const string query = @"UPDATE Account
-                               SET Balance = @Amount
-                               WHERE ID = @AccountId";
-
-        var param = new DynamicParameters(
-            new
-            {
-                AccountId = accountId,
-                Amount = amount
-            }
-        );
-
-        using var connection = CreateConnection();
-        await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
-    }
-
     public async Task DeleteOperation(
         long operationId,
+        long accountId,
         CancellationToken cancellationToken)
     {
-        const string query = @"DELETE FROM Operation
-                                WHERE Id = @OperationId";
-
         var param = new DynamicParameters(
             new
             {
-                OperationId = operationId
+                OperationId = operationId,
+                AccountId = accountId
             }
         );
 
         using var connection = CreateConnection();
-        await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
+        connection.Open();
+
+        using var trans = connection.BeginTransaction();
+        try
+        {
+            await connection.ExecuteAsync(
+                @"DELETE FROM Operation WHERE Id = @OperationId",
+                param,
+                commandType: CommandType.Text);
+
+            await UpdateAccountBalance(accountId, connection);
+            trans.Commit();
+        }
+        catch (Exception)
+        {
+            trans.Rollback();
+            throw;
+        }
     }
 }

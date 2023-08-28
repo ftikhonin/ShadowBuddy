@@ -1,6 +1,6 @@
-﻿using System.Transactions;
-using MediatR;
+﻿using MediatR;
 using ShadowBuddy.Domain.Repositories;
+using ShadowBuddy.Infrastructure.Exceptions;
 
 namespace ShadowBuddy.Handlers.Commands;
 
@@ -16,7 +16,14 @@ public class UpdateOperationCommandHandler : IRequestHandler<UpdateOperationComm
 
     public async Task Handle(UpdateOperationCommand request, CancellationToken cancellationToken)
     {
-        await _accountProcessingRepository.UpdateOperation(request.AccountId, request.OperationId,
+        var operation = _accountProcessingRepository.GetOperation(request.OperationId, cancellationToken).Result;
+
+        if (operation is null)
+        {
+            throw new NotFoundException($"Operation not found! {request.OperationId}");
+        }
+
+        await _accountProcessingRepository.UpdateOperation(operation.AccountId, request.OperationId,
             request.OperationTypeId,
             request.Amount,
             request.CategoryId, request.Comment, request.Moment, cancellationToken);
