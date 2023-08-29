@@ -7,7 +7,15 @@ public interface IAccountProcessingRepository
 {
     Task<Operation[]> GetOperations(long accountId, DateTime moment, CancellationToken cancellationToken);
 
-    Task<float> GetAccountBalance(long accountId, CancellationToken cancellationToken);
+    Task UpdateOperation(
+        long accountId,
+        long operationId,
+        long operationTypeId,
+        float amount,
+        long categoryId,
+        string comment,
+        DateTime moment,
+        CancellationToken cancellationToken);
 
     Task<Operation> GetOperation(long operationId, CancellationToken cancellationToken);
 
@@ -33,16 +41,6 @@ public interface IAccountProcessingRepository
 
     Task CreateOperation(
         long accountId,
-        long operationTypeId,
-        float amount,
-        long categoryId,
-        string comment,
-        DateTime moment,
-        CancellationToken cancellationToken);
-
-    Task UpdateOperation(
-        long accountId,
-        long operationId,
         long operationTypeId,
         float amount,
         long categoryId,

@@ -23,7 +23,8 @@ public class AccountProcessingRepository : IAccountProcessingRepository
 
     public async Task<Operation[]> GetOperations(long accountId, DateTime moment, CancellationToken cancellationToken)
     {
-        const string query = @"SELECT ID, AccountId, OperationTypeId, Amount, CategoryId, Comment, substr(Moment, 1, 19) AS Moment
+        const string query =
+            @"SELECT ID, AccountId, OperationTypeId, Amount, CategoryId, Comment, substr(Moment, 1, 19) AS Moment
 					             FROM Operation
 					            WHERE AccountId = @Id AND substr(Moment,1,4) || substr(Moment,6,2) || substr(Moment,9,2) >= @Moment";
 
@@ -42,7 +43,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return result.ToArray();
     }
 
-    public async Task<float> GetAccountBalance(long accountId, CancellationToken cancellationToken)
+    public async Task<float> GetAccountBalance(long accountId, IDbConnection connection)
     {
         const string query = @"SELECT IFNULL(SUM(o.Amount), 0) FROM Operation as o WHERE o.AccountId = @Id";
 
@@ -52,8 +53,6 @@ public class AccountProcessingRepository : IAccountProcessingRepository
                 Id = accountId
             }
         );
-
-        using var connection = CreateConnection();
 
         return await connection.QueryFirstOrDefaultAsync<float>(query, param, commandType: CommandType.Text);
     }
@@ -184,8 +183,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
                 Amount = amount,
                 CategoryId = categoryId,
                 Comment = comment,
-                Moment = moment,
-                AccountId = accountId
+                Moment = moment
             }
         );
 
@@ -193,6 +191,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         connection.Open();
 
         using var trans = connection.BeginTransaction();
+
         try
         {
             await connection.ExecuteAsync(
@@ -207,6 +206,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
                 commandType: CommandType.Text);
 
             await UpdateAccountBalance(accountId, connection);
+
             trans.Commit();
         }
         catch (Exception)
@@ -220,19 +220,15 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         long accountId,
         IDbConnection connection)
     {
+        var balance = GetAccountBalance(accountId, connection).Result;
+
         var param = new DynamicParameters(
             new
             {
-                AccountId = accountId
+                AccountId = accountId,
+                Balance = balance
             }
         );
-
-        var balance = connection.QueryFirstOrDefault<float>(
-            "SELECT IFNULL(SUM(Amount), 0) FROM Operation WHERE AccountId = @AccountId",
-            param,
-            commandType: CommandType.Text);
-
-        param.Add("Balance", balance);
 
         await connection.ExecuteAsync(
             "UPDATE Account SET Balance = @Balance WHERE ID = @AccountId",

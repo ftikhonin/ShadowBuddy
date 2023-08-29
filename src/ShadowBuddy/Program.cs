@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Hosting;
-using System.Runtime.InteropServices.ComTypes;
 using Microsoft.AspNetCore.Hosting;
 
 namespace ShadowBuddy;

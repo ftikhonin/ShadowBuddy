@@ -23,9 +23,14 @@ public class UpdateOperationCommandHandler : IRequestHandler<UpdateOperationComm
             throw new NotFoundException($"Operation not found! {request.OperationId}");
         }
 
-        await _accountProcessingRepository.UpdateOperation(operation.AccountId, request.OperationId,
+        await _accountProcessingRepository.UpdateOperation(
+            operation.AccountId,
+            request.OperationId,
             request.OperationTypeId,
             request.Amount,
-            request.CategoryId, request.Comment, request.Moment, cancellationToken);
+            request.CategoryId,
+            request.Comment,
+            request.Moment,
+            cancellationToken);
     }
 }
