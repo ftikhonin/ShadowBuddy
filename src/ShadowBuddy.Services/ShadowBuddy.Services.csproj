@@ -15,8 +15,8 @@
         <PackageReference Include="Grpc.Core" Version="2.46.6" />
         <PackageReference Include="Grpc.Reflection" Version="2.54.0" />
         <PackageReference Include="Grpc.Tools" Version="2.57.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="MediatR" Version="12.0.1" />
     </ItemGroup>
@@ -26,6 +26,6 @@
     </ItemGroup>
     <ItemGroup>
         <Protobuf Include="Protos/account_processing.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos/custom_types.proto" GrpcServices="Server" />
     </ItemGroup>
-
 </Project>

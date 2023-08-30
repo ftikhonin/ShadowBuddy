@@ -188,32 +188,17 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         );
 
         using var connection = CreateConnection();
-        connection.Open();
 
-        using var trans = connection.BeginTransaction();
-
-        try
-        {
-            await connection.ExecuteAsync(
-                @"UPDATE Operation
+        await connection.ExecuteAsync(
+            @"UPDATE Operation
                         SET OperationTypeId = @OperationTypeId,
                             Amount = @Amount, 
                             CategoryId = @CategoryId, 
                             Comment = @Comment, 
                             Moment = @Moment
                       WHERE ID = @OperationId",
-                param,
-                commandType: CommandType.Text);
-
-            await UpdateAccountBalance(accountId, connection);
-
-            trans.Commit();
-        }
-        catch (Exception)
-        {
-            trans.Rollback();
-            throw;
-        }
+            param,
+            commandType: CommandType.Text);
     }
 
     public async Task UpdateAccountBalance(
@@ -250,23 +235,10 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         );
 
         using var connection = CreateConnection();
-        connection.Open();
 
-        using var trans = connection.BeginTransaction();
-        try
-        {
-            await connection.ExecuteAsync(
-                @"DELETE FROM Operation WHERE Id = @OperationId",
-                param,
-                commandType: CommandType.Text);
-
-            await UpdateAccountBalance(accountId, connection);
-            trans.Commit();
-        }
-        catch (Exception)
-        {
-            trans.Rollback();
-            throw;
-        }
+        await connection.ExecuteAsync(
+            @"DELETE FROM Operation WHERE Id = @OperationId",
+            param,
+            commandType: CommandType.Text);
     }
 }
