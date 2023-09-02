@@ -41,6 +41,51 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
         return result;
     }
 
+    public override async Task<GetCategoriesResponse> GetCategories(Empty request,
+        ServerCallContext context)
+    {
+        var command = new GetCategoriesQuery();
+        var response = await _mediator.Send(command, context.CancellationToken);
+
+        GetCategoriesResponse result = new GetCategoriesResponse();
+
+        foreach (var row in response.Categories)
+        {
+            result.Categories.Add(new Category
+            {
+                Id = row.Id,
+                Name = row.Name,
+                ShortName = row.ShortName,
+                Label = row.Label,
+            });
+        }
+
+        return result;
+    }
+
+    public override async Task<GetAccountsResponse> GetAccounts(GetAccountsRequest request,
+        ServerCallContext context)
+    {
+        var command = new GetAccountsQuery(request.UserId);
+        var response = await _mediator.Send(command, context.CancellationToken);
+
+        GetAccountsResponse result = new GetAccountsResponse();
+
+        foreach (var row in response.Accounts)
+        {
+            result.Accounts.Add(new Account
+            {
+                AccountId = row.Id,
+                CurrencyId = row.CurrencyId,
+                Balance = row.Balance,
+                Name = row.Name,
+                InitialDate = row.Moment.ToUniversalTime().ToTimestamp()
+            });
+        }
+
+        return result;
+    }
+
     public override async Task<Empty> CreateAccount(CreateAccountRequest request,
         ServerCallContext context)
     {
@@ -90,7 +135,7 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
     public override async Task<Empty> UpdateOperation(UpdateOperationRequest request,
         ServerCallContext context)
     {
-        var command = new UpdateOperationCommand( request.OperationId, request.OperationTypeId,
+        var command = new UpdateOperationCommand(request.OperationId, request.OperationTypeId,
             request.Amount,
             request.CategoryId,
             request.Comment, request.Moment.ToDateTime());

@@ -9,7 +9,9 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
 service AccountProcessingService{
+  rpc GetAccounts(GetAccountsRequest) returns (GetAccountsResponse);
   rpc GetOperations(GetOperationsRequest) returns (GetOperationsResponse);
+  rpc GetCategories(google.protobuf.Empty) returns (GetCategoriesResponse);
   rpc GetCurrency(google.protobuf.Empty) returns (GetCurrencyResponse);
   rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse);
   rpc GetUserAccounts(GetUserAccountsRequest) returns (GetUserAccountsResponse);
@@ -22,6 +24,14 @@ service AccountProcessingService{
   rpc DeleteOperation(DeleteOperationRequest) returns(google.protobuf.Empty);
 }
 
+message GetAccountsRequest{
+  int64 user_id = 1;
+}
+
+message GetAccountsResponse{
+  repeated Account accounts = 1;
+}
+
 message GetOperationsRequest{
   int64 account_id = 1;
   google.protobuf.Timestamp moment = 2;
@@ -31,11 +41,22 @@ message GetOperationsResponse{
   repeated Operation operations = 1;
 }
 
+message GetCategoriesResponse{
+  repeated Category categories = 1;
+}
+
+message Category{
+  int64 id = 1;
+  string Name = 2;
+  string short_name = 3;
+  string label = 4;
+}
+
 message Operation{
   int64 id = 1;
   int64 account_id = 2;
   int64 operation_type_id = 3;
-  float amount = 4;
+  double amount = 4;
   int64 category_id = 5;
   string comment = 6;
   google.protobuf.Timestamp moment = 7;
@@ -67,8 +88,9 @@ message GetUserAccountsResponse{
 message Account{
   int64 account_id = 1;
   int64 currency_id = 2;
-  float balance = 3;
+  double balance = 3;
   string name = 4;
+  google.protobuf.Timestamp initial_date = 5;
 }
 
 message UpdateBalanceRequest{
@@ -79,7 +101,7 @@ message UpdateBalanceRequest{
 message CreateAccountRequest{
   int64 user_id = 1;
   string name = 2;
-  float balance = 3;
+  double balance = 3;
   google.protobuf.Timestamp initial_date = 4;
   int64 currency_id = 5;
 }
@@ -90,7 +112,7 @@ message GetAccountRequest{
 
 message GetAccountResponse{
   string name = 1;
-  float balance = 2;
+  double balance = 2;
   google.protobuf.Timestamp initial_date = 3;
   int64 currency_id = 4;
 }
@@ -98,7 +120,7 @@ message GetAccountResponse{
 message UpdateAccountRequest{
   int64 account_id = 1;
   string name = 2;
-  float balance = 3;
+  double balance = 3;
   google.protobuf.Timestamp initial_date = 4;
   int64 currency_id = 5;
 }
@@ -110,7 +132,7 @@ message DeleteAccountRequest{
 message CreateOperationRequest{
   int64 account_id = 1;
   int64 operation_type_id = 2;
-  float amount = 3;
+  double amount = 3;
   int64 category_id = 4;
   string comment = 5;
   google.protobuf.Timestamp moment = 6;
@@ -122,7 +144,7 @@ message GetOperationRequest{
 
 message GetOperationResponse{
   int64 operation_type_id = 1;
-  float amount = 2;
+  double amount = 2;
   int64 category_id = 3;
   string comment = 4;
   google.protobuf.Timestamp moment = 5;
@@ -131,7 +153,7 @@ message GetOperationResponse{
 message UpdateOperationRequest{
   int64 operation_id = 1;
   int64 operation_type_id = 2;
-  float amount = 3;
+  double amount = 3;
   int64 category_id = 4;
   string comment = 5;
   google.protobuf.Timestamp moment = 6;

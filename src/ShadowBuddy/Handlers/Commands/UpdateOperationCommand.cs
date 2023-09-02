@@ -6,7 +6,7 @@ public class UpdateOperationCommand : IRequest
 {
     public long OperationId { get; }
     public long OperationTypeId { get; }
-    public float Amount { get; }
+    public double Amount { get; }
     public long CategoryId { get; }
     public string Comment { get; }
     public DateTime Moment { get; }
@@ -14,7 +14,7 @@ public class UpdateOperationCommand : IRequest
     public UpdateOperationCommand(
         long operationId,
         long operationTypeId,
-        float amount,
+        double amount,
         long categoryId,
         string comment,
         DateTime moment)

@@ -26,6 +26,5 @@
     </ItemGroup>
     <ItemGroup>
         <Protobuf Include="Protos/account_processing.proto" GrpcServices="Server" />
-        <Protobuf Include="Protos/custom_types.proto" GrpcServices="Server" />
     </ItemGroup>
 </Project>

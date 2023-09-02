@@ -1,17 +1,19 @@
-﻿using System.Data;
-using ShadowBuddy.Domain.Entities;
+﻿using ShadowBuddy.Domain.Entities;
 
 namespace ShadowBuddy.Domain.Repositories;
 
 public interface IAccountProcessingRepository
 {
     Task<Operation[]> GetOperations(long accountId, DateTime moment, CancellationToken cancellationToken);
+    Task<Account[]> GetAccounts(long userId, CancellationToken cancellationToken);
+    Task<double> GetAccountBalance(long accountId);
+    Task<Category[]> GetCategories();
 
     Task UpdateOperation(
         long accountId,
         long operationId,
         long operationTypeId,
-        float amount,
+        double amount,
         long categoryId,
         string comment,
         DateTime moment,
@@ -19,10 +21,10 @@ public interface IAccountProcessingRepository
 
     Task<Operation> GetOperation(long operationId, CancellationToken cancellationToken);
 
-    Task CreateAccount(
+    Task<long> CreateAccount(
         long userId,
         string name,
-        float balance,
+        double balance,
         DateTime initialDate,
         long currencyId,
         CancellationToken cancellationToken);
@@ -30,7 +32,7 @@ public interface IAccountProcessingRepository
     Task UpdateAccount(
         long accountId,
         string name,
-        float balance,
+        double balance,
         DateTime initialDate,
         long currencyId,
         CancellationToken cancellationToken);
@@ -42,15 +44,11 @@ public interface IAccountProcessingRepository
     Task CreateOperation(
         long accountId,
         long operationTypeId,
-        float amount,
+        double amount,
         long categoryId,
         string comment,
         DateTime moment,
         CancellationToken cancellationToken);
-
-    Task UpdateAccountBalance(
-        long accountId,
-        IDbConnection connection);
 
     Task DeleteOperation(
         long operationId,

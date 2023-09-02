@@ -13,7 +13,12 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand>
                                        throw new ArgumentNullException(nameof(accountProcessingRepository));
     }
 
-    public async Task Handle(CreateAccountCommand request, CancellationToken cancellationToken) =>
-        await _accountProcessingRepository.CreateAccount(request.UserId, request.Name, request.Balance,
+    public async Task Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+    {
+        var accountId = await _accountProcessingRepository.CreateAccount(request.UserId, request.Name, request.Balance,
             request.InitialDate, request.CurrencyId, cancellationToken);
+
+        await _accountProcessingRepository.CreateOperation(accountId, 1, request.Balance, 1, "", request.InitialDate,
+            cancellationToken);
+    }
 }
