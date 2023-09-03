@@ -8,6 +8,7 @@ public interface IAccountProcessingRepository
     Task<Account[]> GetAccounts(long userId, CancellationToken cancellationToken);
     Task<double> GetAccountBalance(long accountId);
     Task<Category[]> GetCategories();
+    Task<Currency[]> GetCurrencies();
 
     Task UpdateOperation(
         long accountId,
@@ -32,7 +33,6 @@ public interface IAccountProcessingRepository
     Task UpdateAccount(
         long accountId,
         string name,
-        double balance,
         DateTime initialDate,
         long currencyId,
         CancellationToken cancellationToken);

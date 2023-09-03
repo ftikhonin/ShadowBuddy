@@ -23,7 +23,8 @@ public class AccountProcessingRepository : IAccountProcessingRepository
 
     public async Task<Operation[]> GetOperations(long accountId, DateTime moment, CancellationToken cancellationToken)
     {
-        const string query = @"SELECT ID, AccountId, OperationTypeId, Amount, CategoryId, Comment, substr(Moment, 1, 19) AS Moment
+        const string query =
+            @"SELECT ID, AccountId, OperationTypeId, Amount, CategoryId, Comment, substr(Moment, 1, 19) AS Moment
 					             FROM Operation
 					            WHERE AccountId = @Id AND date(Moment) = date(@Moment)";
 
@@ -41,18 +42,29 @@ public class AccountProcessingRepository : IAccountProcessingRepository
 
         return result.ToArray();
     }
-    
+
     public async Task<Category[]> GetCategories()
     {
         const string query = @"SELECT ID, Name, ShortName, Label FROM Category";
 
         using var connection = CreateConnection();
 
-        var result = await connection.QueryAsync<Category>(query,null, commandType: CommandType.Text);
+        var result = await connection.QueryAsync<Category>(query, null, commandType: CommandType.Text);
 
         return result.ToArray();
     }
-    
+
+    public async Task<Currency[]> GetCurrencies()
+    {
+        const string query = @"SELECT ID, Name, ShortName, Label FROM Currency";
+
+        using var connection = CreateConnection();
+
+        var result = await connection.QueryAsync<Currency>(query, null, commandType: CommandType.Text);
+
+        return result.ToArray();
+    }
+
     public async Task<Account[]> GetAccounts(long userId, CancellationToken cancellationToken)
     {
         const string query = @"SELECT ID, CurrencyId, Name, substr(Moment, 1, 19) AS Moment
@@ -72,7 +84,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
 
         return result.ToArray();
     }
-    
+
     public async Task<double> GetAccountBalance(long accountId)
     {
         const string query = @"SELECT IFNULL(SUM(o.Amount), 0) FROM Operation as o WHERE o.AccountId = @Id";
@@ -104,7 +116,8 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return await connection.QueryFirstOrDefaultAsync<Operation>(query, param, commandType: CommandType.Text);
     }
 
-    public async Task<long> CreateAccount(long userId, string name, double balance, DateTime initialDate, long currencyId,
+    public async Task<long> CreateAccount(long userId, string name, double balance, DateTime initialDate,
+        long currencyId,
         CancellationToken cancellationToken)
     {
         const string query = @"INSERT INTO Account(UserId, CurrencyId,  Name, Moment)
@@ -126,12 +139,11 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return await connection.QueryFirstOrDefaultAsync<long>(query, param, commandType: CommandType.Text);
     }
 
-    public async Task UpdateAccount(long accountId, string name, double balance, DateTime initialDate, long currencyId,
+    public async Task UpdateAccount(long accountId, string name, DateTime initialDate, long currencyId,
         CancellationToken cancellationToken)
     {
         const string query = @"UPDATE Account
-                               SET CurrencyId = @CurrencyId, 
-                                   Balance = @Balance, 
+                               SET CurrencyId = @CurrencyId,
                                    Name = @Name, 
                                    Moment = @InitialDate
                                 WHERE Id = @AccountId";
@@ -141,7 +153,6 @@ public class AccountProcessingRepository : IAccountProcessingRepository
             {
                 AccountId = accountId,
                 CurrencyId = currencyId,
-                Balance = balance,
                 Name = name,
                 InitialDate = initialDate
             }

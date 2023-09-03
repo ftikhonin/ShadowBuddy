@@ -63,6 +63,28 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
         return result;
     }
 
+    public override async Task<GetCurrenciesResponse> GetCurrencies(Empty request,
+        ServerCallContext context)
+    {
+        var command = new GetCurrenciesQuery();
+        var response = await _mediator.Send(command, context.CancellationToken);
+
+        GetCurrenciesResponse result = new GetCurrenciesResponse();
+
+        foreach (var row in response.Currencies)
+        {
+            result.Currencies.Add(new Currency
+            {
+                Id = row.Id,
+                Name = row.Name,
+                ShortName = row.ShortName,
+                Label = row.Label,
+            });
+        }
+
+        return result;
+    }
+
     public override async Task<GetAccountsResponse> GetAccounts(GetAccountsRequest request,
         ServerCallContext context)
     {
@@ -84,6 +106,18 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
         }
 
         return result;
+    }
+
+    public override async Task<GetBalanceResponse> GetBalance(GetBalanceRequest request,
+        ServerCallContext context)
+    {
+        var command = new GetBalanceQuery(request.UserId);
+        var response = await _mediator.Send(command, context.CancellationToken);
+
+        return new GetBalanceResponse
+        {
+            Balance = response.Balance
+        };
     }
 
     public override async Task<Empty> CreateAccount(CreateAccountRequest request,

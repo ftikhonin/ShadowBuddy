@@ -14,6 +14,6 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand>
     }
 
     public async Task Handle(UpdateAccountCommand request, CancellationToken cancellationToken) =>
-        await _accountProcessingRepository.UpdateAccount(request.AccountId, request.Name, request.Balance,
+        await _accountProcessingRepository.UpdateAccount(request.AccountId, request.Name,
             request.InitialDate, request.CurrencyId, cancellationToken);
 }

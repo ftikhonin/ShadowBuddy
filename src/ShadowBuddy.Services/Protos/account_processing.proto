@@ -12,10 +12,9 @@ service AccountProcessingService{
   rpc GetAccounts(GetAccountsRequest) returns (GetAccountsResponse);
   rpc GetOperations(GetOperationsRequest) returns (GetOperationsResponse);
   rpc GetCategories(google.protobuf.Empty) returns (GetCategoriesResponse);
-  rpc GetCurrency(google.protobuf.Empty) returns (GetCurrencyResponse);
+  rpc GetCurrencies(google.protobuf.Empty) returns (GetCurrenciesResponse);
   rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse);
   rpc GetUserAccounts(GetUserAccountsRequest) returns (GetUserAccountsResponse);
-  rpc UpdateBalance(UpdateBalanceRequest) returns (google.protobuf.Empty);
   rpc CreateAccount(CreateAccountRequest) returns(google.protobuf.Empty);
   rpc UpdateAccount(UpdateAccountRequest) returns(google.protobuf.Empty);
   rpc DeleteAccount(DeleteAccountRequest) returns(google.protobuf.Empty);
@@ -62,7 +61,11 @@ message Operation{
   google.protobuf.Timestamp moment = 7;
 }
 
-message GetCurrencyResponse{
+message GetCurrenciesResponse{
+  repeated Currency currencies = 1;
+}
+
+message Currency{
   int64 id = 1;
   string name = 2;
   string short_name = 3;
@@ -74,7 +77,7 @@ message GetBalanceRequest{
 }
 
 message GetBalanceResponse{
-  float balance = 1;
+  double balance = 1;
 }
 
 message GetUserAccountsRequest{
@@ -91,11 +94,6 @@ message Account{
   double balance = 3;
   string name = 4;
   google.protobuf.Timestamp initial_date = 5;
-}
-
-message UpdateBalanceRequest{
-  int64 user_id = 1;
-  float amount = 2;
 }
 
 message CreateAccountRequest{
