@@ -13,7 +13,13 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand>
                                        throw new ArgumentNullException(nameof(accountProcessingRepository));
     }
 
-    public async Task Handle(UpdateAccountCommand request, CancellationToken cancellationToken) =>
+    public async Task Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
+    {
+        // var account = _accountProcessingRepository.getac
+        
         await _accountProcessingRepository.UpdateAccount(request.AccountId, request.Name,
-            request.InitialDate, request.CurrencyId, cancellationToken);
+            request.InitialDate, request.CurrencyId);
+        
+        // await _accountProcessingRepository.UpdateOperation()
+    }
 }

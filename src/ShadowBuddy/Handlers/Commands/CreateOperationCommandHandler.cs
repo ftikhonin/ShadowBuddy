@@ -15,5 +15,5 @@ public class CreateOperationCommandHandler : IRequestHandler<CreateOperationComm
 
     public async Task Handle(CreateOperationCommand request, CancellationToken cancellationToken) =>
         await _accountProcessingRepository.CreateOperation(request.AccountId, request.OperationTypeId, request.Amount,
-            request.CategoryId, request.Comment, request.Moment, cancellationToken);
+            request.CategoryId, request.Comment, request.Moment);
 }

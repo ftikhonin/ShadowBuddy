@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using ShadowBuddy.Domain.Enums;
 using ShadowBuddy.Domain.Repositories;
 
 namespace ShadowBuddy.Handlers.Commands;
@@ -16,9 +17,9 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand>
     public async Task Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
         var accountId = await _accountProcessingRepository.CreateAccount(request.UserId, request.Name, request.Balance,
-            request.InitialDate, request.CurrencyId, cancellationToken);
+            request.InitialDate, request.CurrencyId);
 
-        await _accountProcessingRepository.CreateOperation(accountId, 1, request.Balance, 1, "", request.InitialDate,
-            cancellationToken);
+        await _accountProcessingRepository.CreateOperation(accountId, (long) OperationType.Initial, request.Balance, 1,
+            "", request.InitialDate);
     }
 }

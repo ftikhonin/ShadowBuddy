@@ -16,7 +16,7 @@ public class GetBalanceQueryHandler : IRequestHandler<GetBalanceQuery, GetBalanc
 
     public async Task<GetBalanceQueryResult> Handle(GetBalanceQuery request, CancellationToken cancellationToken)
     {
-        var accounts = await _accountProcessingRepository.GetAccounts(request.UserId, cancellationToken);
+        var accounts = await _accountProcessingRepository.GetAccounts(request.UserId);
 
         if (!accounts.Any())
         {

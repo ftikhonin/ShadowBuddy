@@ -16,7 +16,7 @@ public class UpdateOperationCommandHandler : IRequestHandler<UpdateOperationComm
 
     public async Task Handle(UpdateOperationCommand request, CancellationToken cancellationToken)
     {
-        var operation = _accountProcessingRepository.GetOperation(request.OperationId, cancellationToken).Result;
+        var operation = _accountProcessingRepository.GetOperation(request.OperationId).Result;
 
         if (operation is null)
         {
@@ -24,13 +24,11 @@ public class UpdateOperationCommandHandler : IRequestHandler<UpdateOperationComm
         }
 
         await _accountProcessingRepository.UpdateOperation(
-            operation.AccountId,
             request.OperationId,
             request.OperationTypeId,
             request.Amount,
             request.CategoryId,
             request.Comment,
-            request.Moment,
-            cancellationToken);
+            request.Moment);
     }
 }

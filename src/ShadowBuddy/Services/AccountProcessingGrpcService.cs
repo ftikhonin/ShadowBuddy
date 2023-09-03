@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MediatR;
+using ShadowBuddy.Handlers;
 using ShadowBuddy.Handlers.Commands;
 using ShadowBuddy.Handlers.Queries;
 using ShadowBuddy.Service.Grpc;

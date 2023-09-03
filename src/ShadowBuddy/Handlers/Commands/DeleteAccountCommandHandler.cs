@@ -14,5 +14,5 @@ public class DeleteAccountCommandHandler : IRequestHandler<DeleteAccountCommand>
     }
 
     public async Task Handle(DeleteAccountCommand request, CancellationToken cancellationToken) =>
-        await _accountProcessingRepository.DeleteAccount(request.AccountId, cancellationToken);
+        await _accountProcessingRepository.DeleteAccount(request.AccountId);
 }

@@ -1,4 +1,4 @@
-﻿namespace ShadowBuddy.Handlers;
+﻿namespace ShadowBuddy.Handlers.Queries;
 
 public class GetBalanceQueryResult
 {

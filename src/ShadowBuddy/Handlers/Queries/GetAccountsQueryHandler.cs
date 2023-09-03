@@ -16,7 +16,7 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, GetAcco
 
     public async Task<GetAccountsQueryResult> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
     {
-        var accounts = await _accountProcessingRepository.GetAccounts(request.UserId, cancellationToken);
+        var accounts = await _accountProcessingRepository.GetAccounts(request.UserId);
         
         if (!accounts.Any())
         {

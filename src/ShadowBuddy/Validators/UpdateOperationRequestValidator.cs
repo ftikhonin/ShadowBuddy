@@ -7,6 +7,6 @@ public class UpdateOperationRequestValidator : AbstractValidator<UpdateOperation
 {
     public UpdateOperationRequestValidator()
     {
-        RuleFor(x => x.Amount).GreaterThan(0).WithMessage("Amount must be greather than zero");
+        RuleFor(x => x.Amount).GreaterThan(0).WithMessage("Amount must be greater than zero");
     }
 }

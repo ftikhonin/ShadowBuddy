@@ -16,13 +16,13 @@ public class DeleteOperationCommandHandler : IRequestHandler<DeleteOperationComm
 
     public async Task Handle(DeleteOperationCommand request, CancellationToken cancellationToken)
     {
-        var operation = _accountProcessingRepository.GetOperation(request.OperationId, cancellationToken).Result;
+        var operation = _accountProcessingRepository.GetOperation(request.OperationId).Result;
 
         if (operation is null)
         {
             throw new NotFoundException($"Operation not found! {request.OperationId}");
         }
 
-        await _accountProcessingRepository.DeleteOperation(request.OperationId, operation.AccountId, cancellationToken);
+        await _accountProcessingRepository.DeleteOperation(request.OperationId, operation.AccountId);
     }
 }

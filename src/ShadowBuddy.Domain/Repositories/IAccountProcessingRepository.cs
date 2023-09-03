@@ -4,42 +4,37 @@ namespace ShadowBuddy.Domain.Repositories;
 
 public interface IAccountProcessingRepository
 {
-    Task<Operation[]> GetOperations(long accountId, DateTime moment, CancellationToken cancellationToken);
-    Task<Account[]> GetAccounts(long userId, CancellationToken cancellationToken);
+    Task<Operation[]> GetOperations(long accountId, DateTime moment);
+    Task<Account[]> GetAccounts(long userId);
     Task<double> GetAccountBalance(long accountId);
     Task<Category[]> GetCategories();
     Task<Currency[]> GetCurrencies();
 
     Task UpdateOperation(
-        long accountId,
         long operationId,
         long operationTypeId,
         double amount,
         long categoryId,
         string comment,
-        DateTime moment,
-        CancellationToken cancellationToken);
+        DateTime moment);
 
-    Task<Operation> GetOperation(long operationId, CancellationToken cancellationToken);
+    Task<Operation> GetOperation(long operationId);
 
     Task<long> CreateAccount(
         long userId,
         string name,
         double balance,
         DateTime initialDate,
-        long currencyId,
-        CancellationToken cancellationToken);
+        long currencyId);
 
     Task UpdateAccount(
         long accountId,
         string name,
         DateTime initialDate,
-        long currencyId,
-        CancellationToken cancellationToken);
+        long currencyId);
 
     Task DeleteAccount(
-        long accountId,
-        CancellationToken cancellationToken);
+        long accountId);
 
     Task CreateOperation(
         long accountId,
@@ -47,11 +42,9 @@ public interface IAccountProcessingRepository
         double amount,
         long categoryId,
         string comment,
-        DateTime moment,
-        CancellationToken cancellationToken);
+        DateTime moment);
 
     Task DeleteOperation(
         long operationId,
-        long accountId,
-        CancellationToken cancellationToken);
+        long accountId);
 }

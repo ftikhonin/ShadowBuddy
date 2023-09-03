@@ -21,7 +21,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return new SqliteConnection(Configuration.GetConnectionString("SQLiteConnection"));
     }
 
-    public async Task<Operation[]> GetOperations(long accountId, DateTime moment, CancellationToken cancellationToken)
+    public async Task<Operation[]> GetOperations(long accountId, DateTime moment)
     {
         const string query =
             @"SELECT ID, AccountId, OperationTypeId, Amount, CategoryId, Comment, substr(Moment, 1, 19) AS Moment
@@ -65,7 +65,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return result.ToArray();
     }
 
-    public async Task<Account[]> GetAccounts(long userId, CancellationToken cancellationToken)
+    public async Task<Account[]> GetAccounts(long userId)
     {
         const string query = @"SELECT ID, CurrencyId, Name, substr(Moment, 1, 19) AS Moment
 			                     FROM Account
@@ -99,7 +99,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return await connection.QueryFirstOrDefaultAsync<double>(query, param, commandType: CommandType.Text);
     }
 
-    public async Task<Operation> GetOperation(long operationId, CancellationToken cancellationToken)
+    public async Task<Operation> GetOperation(long operationId)
     {
         const string query =
             @"SELECT Id, AccountId, OperationTypeId, Amount, CategoryId, Comment, Moment FROM Operation WHERE Id = @Id";
@@ -116,9 +116,12 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return await connection.QueryFirstOrDefaultAsync<Operation>(query, param, commandType: CommandType.Text);
     }
 
-    public async Task<long> CreateAccount(long userId, string name, double balance, DateTime initialDate,
-        long currencyId,
-        CancellationToken cancellationToken)
+    public async Task<long> CreateAccount(
+        long userId, 
+        string name, 
+        double balance, 
+        DateTime initialDate,
+        long currencyId)
     {
         const string query = @"INSERT INTO Account(UserId, CurrencyId,  Name, Moment)
                                 VALUES(@UserId, @CurrencyId, @Name, @InitialDate)
@@ -139,8 +142,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         return await connection.QueryFirstOrDefaultAsync<long>(query, param, commandType: CommandType.Text);
     }
 
-    public async Task UpdateAccount(long accountId, string name, DateTime initialDate, long currencyId,
-        CancellationToken cancellationToken)
+    public async Task UpdateAccount(long accountId, string name, DateTime initialDate, long currencyId)
     {
         const string query = @"UPDATE Account
                                SET CurrencyId = @CurrencyId,
@@ -162,9 +164,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         await connection.ExecuteAsync(query, param, commandType: CommandType.Text);
     }
 
-    public async Task DeleteAccount(
-        long accountId,
-        CancellationToken cancellationToken)
+    public async Task DeleteAccount(long accountId)
     {
         const string query = @"DELETE FROM Account WHERE Id = @AccountId";
 
@@ -185,8 +185,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
         double amount,
         long categoryId,
         string comment,
-        DateTime moment,
-        CancellationToken cancellationToken)
+        DateTime moment)
     {
         const string query = @"INSERT INTO Operation(AccountId, OperationTypeId, Amount, CategoryId, Comment, Moment)
                                 VALUES(@AccountId, @OperationTypeId, @Amount, @CategoryId, @Comment, @Moment)";
@@ -208,14 +207,12 @@ public class AccountProcessingRepository : IAccountProcessingRepository
     }
 
     public async Task UpdateOperation(
-        long accountId,
         long operationId,
         long operationTypeId,
         double amount,
         long categoryId,
         string comment,
-        DateTime moment,
-        CancellationToken cancellationToken)
+        DateTime moment)
     {
         var param = new DynamicParameters(
             new
@@ -245,8 +242,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
 
     public async Task DeleteOperation(
         long operationId,
-        long accountId,
-        CancellationToken cancellationToken)
+        long accountId)
     {
         var param = new DynamicParameters(
             new
