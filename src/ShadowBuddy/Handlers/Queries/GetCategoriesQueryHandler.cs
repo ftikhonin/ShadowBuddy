@@ -17,9 +17,6 @@ public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, Get
     {
         var categories = await _accountProcessingRepository.GetCategories();
 
-        return new GetCategoriesQueryResult()
-        {
-            Categories = categories
-        };
+        return new GetCategoriesQueryResult(categories);
     }
 }

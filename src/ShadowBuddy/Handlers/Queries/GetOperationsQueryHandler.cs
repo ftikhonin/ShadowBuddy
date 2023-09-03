@@ -21,12 +21,10 @@ public class GetOperationsQueryHandler : IRequestHandler<GetOperationsQuery, Get
 
         if (operations is null || !operations.Any())
         {
-            throw new NotFoundException($"Operations not found. AccountId = {request.AccountId}, Moment = {request.Moment}");
+            throw new NotFoundException(
+                $"Operations not found. AccountId = {request.AccountId}, Moment = {request.Moment}");
         }
 
-        return new GetOperationsQueryResult
-        {
-            Operations = operations
-        };
+        return new GetOperationsQueryResult(operations);
     }
 }

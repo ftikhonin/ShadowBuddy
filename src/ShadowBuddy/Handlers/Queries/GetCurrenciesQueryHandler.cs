@@ -17,9 +17,6 @@ public class GetCurrenciesQueryHandler : IRequestHandler<GetCurrenciesQuery, Get
     {
         var currencies = await _accountProcessingRepository.GetCurrencies();
 
-        return new GetCurrenciesQueryResult()
-        {
-            Currencies = currencies
-        };
+        return new GetCurrenciesQueryResult(currencies);
     }
 }

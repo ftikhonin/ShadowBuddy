@@ -17,7 +17,7 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, GetAcco
     public async Task<GetAccountsQueryResult> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
     {
         var accounts = await _accountProcessingRepository.GetAccounts(request.UserId);
-        
+
         if (!accounts.Any())
         {
             throw new NotFoundException($"Operations not found. UserId = {request.UserId}");
@@ -27,11 +27,8 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, GetAcco
         {
             account.Balance = _accountProcessingRepository.GetAccountBalance(account.Id).Result;
         }
-        
 
-        return new GetAccountsQueryResult()
-        {
-            Accounts = accounts
-        };
+
+        return new GetAccountsQueryResult(accounts);
     }
 }
