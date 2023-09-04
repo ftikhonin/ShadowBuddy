@@ -18,9 +18,9 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, GetAcco
     {
         var accounts = await _accountProcessingRepository.GetAccounts(request.UserId);
 
-        if (!accounts.Any())
+        if (accounts is null || !accounts.Any())
         {
-            throw new NotFoundException($"Operations not found. UserId = {request.UserId}");
+            throw new NotFoundException($"Accounts not found. UserId = {request.UserId}");
         }
 
         foreach (var account in accounts)

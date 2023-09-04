@@ -18,9 +18,9 @@ public class GetBalanceQueryHandler : IRequestHandler<GetBalanceQuery, GetBalanc
     {
         var accounts = await _accountProcessingRepository.GetAccounts(request.UserId);
 
-        if (!accounts.Any())
+        if (accounts is null || !accounts.Any())
         {
-            throw new NotFoundException($"Operations not found. UserId = {request.UserId}");
+            throw new NotFoundException($"Accounts not found. UserId = {request.UserId}");
         }
 
         foreach (var account in accounts)
@@ -28,8 +28,7 @@ public class GetBalanceQueryHandler : IRequestHandler<GetBalanceQuery, GetBalanc
             account.Balance = _accountProcessingRepository.GetAccountBalance(account.Id).Result;
         }
 
-
-        return new GetBalanceQueryResult()
+        return new GetBalanceQueryResult
         {
             Balance = accounts.Sum(x => x.Balance)
         };

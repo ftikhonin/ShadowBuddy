@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ShadowBuddy.Domain.Repositories;
+using ShadowBuddy.Infrastructure.Exceptions;
 
 namespace ShadowBuddy.Handlers.Queries;
 
@@ -16,7 +17,12 @@ public class GetCurrenciesQueryHandler : IRequestHandler<GetCurrenciesQuery, Get
     public async Task<GetCurrenciesQueryResult> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
     {
         var currencies = await _accountProcessingRepository.GetCurrencies();
-
+        
+        if (currencies is null || !currencies.Any())
+        {
+            throw new NotFoundException($"Currencies not found.");
+        }
+        
         return new GetCurrenciesQueryResult(currencies);
     }
 }
