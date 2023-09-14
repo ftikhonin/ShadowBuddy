@@ -1,7 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using ShadowBuddy.Domain.Entities;
 using ShadowBuddy.Domain.Repositories;
-using ShadowBuddy.Handlers;
 using ShadowBuddy.Handlers.Queries;
 
 namespace ShadowBuddy.Tests.Handlers;
