@@ -26,4 +26,10 @@ public class CreateOperationCommandHandlerTests
         //Assert
         Assert.Null(exception.Result);
     }
+
+    [Fact]
+    public void Should_throws_argument_null_exception_when_repository_is_null()
+    {
+        Assert.Throws<ArgumentNullException>(() => new CreateOperationCommandHandler(null));
+    }
 }

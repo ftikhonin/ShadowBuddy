@@ -72,4 +72,10 @@ public class GetCurrenciesQueryHandlerTests
         //Assert
         Assert.Contains("Currencies not found", exception.Result.Message);
     }
+
+    [Fact]
+    public void Should_throws_argument_null_exception_when_repository_is_null()
+    {
+        Assert.Throws<ArgumentNullException>(() => new GetCurrenciesQueryHandler(null));
+    }
 }
