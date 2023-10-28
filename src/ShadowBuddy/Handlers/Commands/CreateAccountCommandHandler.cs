@@ -19,7 +19,12 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand>
         var accountId = await _accountProcessingRepository.CreateAccount(request.UserId, request.Name, request.Balance,
             request.InitialDate, request.CurrencyId);
 
-        await _accountProcessingRepository.CreateOperation(accountId, (long) OperationType.Initial, request.Balance, 1,
-            request.Comment, request.InitialDate);
+        await _accountProcessingRepository.CreateOperation(
+            accountId, 
+            OperationType.Initial, 
+            request.Balance,
+            Category.Initial,
+            request.Comment, 
+            request.InitialDate);
     }
 }

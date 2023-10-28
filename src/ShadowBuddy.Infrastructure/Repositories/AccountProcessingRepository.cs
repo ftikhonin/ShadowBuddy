@@ -3,7 +3,10 @@ using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using ShadowBuddy.Domain.Entities;
+using ShadowBuddy.Domain.Enums;
 using ShadowBuddy.Domain.Repositories;
+using Category = ShadowBuddy.Domain.Entities.Category;
+using Currency = ShadowBuddy.Domain.Entities.Currency;
 
 namespace ShadowBuddy.Infrastructure.Repositories;
 
@@ -186,9 +189,9 @@ public class AccountProcessingRepository : IAccountProcessingRepository
 
     public async Task CreateOperation(
         long accountId,
-        long operationTypeId,
+        OperationType operationType,
         double amount,
-        long categoryId,
+        Domain.Enums.Category category,
         string comment,
         DateTime moment)
     {
@@ -199,9 +202,9 @@ public class AccountProcessingRepository : IAccountProcessingRepository
             new
             {
                 AccountId = accountId,
-                OperationTypeId = operationTypeId,
+                OperationTypeId = operationType,
                 Amount = amount,
-                CategoryId = categoryId,
+                CategoryId = category,
                 Comment = comment,
                 Moment = moment
             }

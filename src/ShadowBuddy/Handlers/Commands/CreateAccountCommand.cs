@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using ShadowBuddy.Domain.Enums;
 
 namespace ShadowBuddy.Handlers.Commands;
 

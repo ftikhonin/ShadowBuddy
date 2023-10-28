@@ -1,4 +1,7 @@
 ﻿using ShadowBuddy.Domain.Entities;
+using ShadowBuddy.Domain.Enums;
+using Category = ShadowBuddy.Domain.Entities.Category;
+using Currency = ShadowBuddy.Domain.Entities.Currency;
 
 namespace ShadowBuddy.Domain.Repositories;
 
@@ -38,9 +41,9 @@ public interface IAccountProcessingRepository
 
     Task CreateOperation(
         long accountId,
-        long operationTypeId,
+        OperationType operation,
         double amount,
-        long categoryId,
+        Enums.Category category,
         string comment,
         DateTime moment);
 
