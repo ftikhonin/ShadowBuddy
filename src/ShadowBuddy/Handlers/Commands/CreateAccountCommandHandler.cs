@@ -20,6 +20,6 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand>
             request.InitialDate, request.CurrencyId);
 
         await _accountProcessingRepository.CreateOperation(accountId, (long) OperationType.Initial, request.Balance, 1,
-            "", request.InitialDate);
+            request.Comment, request.InitialDate);
     }
 }

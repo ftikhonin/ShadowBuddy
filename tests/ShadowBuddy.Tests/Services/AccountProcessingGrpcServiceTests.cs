@@ -1,8 +1,7 @@
 ﻿using MediatR;
-using ShadowBuddy.Handlers;
 using ShadowBuddy.Handlers.Commands;
 
-namespace ShadowBuddy.Tests.Handlers;
+namespace ShadowBuddy.Tests.Services;
 
 public class AccountProcessingGrpcServiceTests
 {
@@ -14,14 +13,14 @@ public class AccountProcessingGrpcServiceTests
     }
 
     [Fact]
-    public void CreateAccount_handles_properly()
+    public void CreateAccount_handles_without_exception()
     {
         //Arrange
-        var command = new CreateAccountCommand(1, "Test", 12.34F, DateTime.UtcNow, 1);
+        var command = new CreateAccountCommand(1, "Test", 12.34F, DateTime.UtcNow, 1, "test");
         //Act
         var exception = Record.ExceptionAsync(() => _mediator.Object.Send(command, CancellationToken.None));
+
         //Assert
-        //TODO:доделать
-        Assert.Null(null);
+        Assert.Null(exception.Result);
     }
 }

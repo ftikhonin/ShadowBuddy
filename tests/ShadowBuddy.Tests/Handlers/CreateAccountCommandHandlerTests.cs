@@ -23,7 +23,7 @@ public class CreateAccountCommandHandlerTests
 
         //Act
         var exception = Record.ExceptionAsync(() => handler.Handle(
-            new CreateAccountCommand(1234, "test", 1234.1, DateTime.Now, 1L),
+            new CreateAccountCommand(1234, "test", 1234.1, DateTime.Now, 1L, "Test"),
             CancellationToken.None));
 
         //Assert
@@ -33,6 +33,6 @@ public class CreateAccountCommandHandlerTests
     [Fact]
     public void Should_throws_argument_null_exception_when_repository_is_null()
     {
-        Assert.Throws<ArgumentNullException>(() => new CreateAccountCommandHandler(null));
+        Assert.Throws<ArgumentNullException>(() => new CreateAccountCommandHandler(null!));
     }
 }

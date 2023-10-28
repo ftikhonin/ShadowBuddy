@@ -126,7 +126,7 @@ public class AccountProcessingGrpcService : AccountProcessingService.AccountProc
     {
         var command = new CreateAccountCommand(request.UserId, request.Name, request.Balance,
             request.InitialDate.ToDateTime(),
-            request.CurrencyId);
+            request.CurrencyId, request.Comment);
 
         await _mediator.Send(command, context.CancellationToken);
 

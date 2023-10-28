@@ -102,6 +102,7 @@ message CreateAccountRequest{
   double balance = 3;
   google.protobuf.Timestamp initial_date = 4;
   int64 currency_id = 5;
+  string comment = 6;
 }
 
 message GetAccountRequest{

@@ -30,6 +30,6 @@ public class DeleteAccountCommandHandlerTests
     [Fact]
     public void Should_throws_argument_null_exception_when_repository_is_null()
     {
-        Assert.Throws<ArgumentNullException>(() => new DeleteAccountCommandHandler(null));
+        Assert.Throws<ArgumentNullException>(() => new DeleteAccountCommandHandler(null!));
     }
 }
