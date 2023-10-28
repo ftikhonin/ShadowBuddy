@@ -18,9 +18,14 @@ public class AccountProcessingRepository : IAccountProcessingRepository
 
     public IDbConnection CreateConnection()
     {
-        return new SqliteConnection(Configuration.GetConnectionString("SQLiteConnection"));
+        return new SqliteConnection(Configuration.GetConnectionString("ReadWriteConnection"));
     }
-
+    
+    public IDbConnection CreateReadOnlyConnection()
+    {
+        return new SqliteConnection(Configuration.GetConnectionString("ReadOnlyConnection"));
+    }
+    
     public async Task<Operation[]> GetOperations(long accountId, DateTime moment)
     {
         const string query =
@@ -36,7 +41,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
             }
         );
 
-        using var connection = CreateConnection();
+        using var connection = CreateReadOnlyConnection();
 
         var result = await connection.QueryAsync<Operation>(query, param, commandType: CommandType.Text);
 
@@ -47,7 +52,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
     {
         const string query = @"SELECT ID, Name, ShortName, Label FROM Category";
 
-        using var connection = CreateConnection();
+        using var connection = CreateReadOnlyConnection();
 
         var result = await connection.QueryAsync<Category>(query, null, commandType: CommandType.Text);
 
@@ -58,7 +63,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
     {
         const string query = @"SELECT ID, Name, ShortName, Label FROM Currency";
 
-        using var connection = CreateConnection();
+        using var connection = CreateReadOnlyConnection();
 
         var result = await connection.QueryAsync<Currency>(query, null, commandType: CommandType.Text);
 
@@ -78,7 +83,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
             }
         );
 
-        using var connection = CreateConnection();
+        using var connection = CreateReadOnlyConnection();
 
         var result = await connection.QueryAsync<Account>(query, param, commandType: CommandType.Text);
 
@@ -95,7 +100,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
                 Id = accountId
             }
         );
-        using var connection = CreateConnection();
+        using var connection = CreateReadOnlyConnection();
         return await connection.QueryFirstOrDefaultAsync<double>(query, param, commandType: CommandType.Text);
     }
 
@@ -111,7 +116,7 @@ public class AccountProcessingRepository : IAccountProcessingRepository
             }
         );
 
-        using var connection = CreateConnection();
+        using var connection = CreateReadOnlyConnection();
 
         return await connection.QueryFirstOrDefaultAsync<Operation>(query, param, commandType: CommandType.Text);
     }
