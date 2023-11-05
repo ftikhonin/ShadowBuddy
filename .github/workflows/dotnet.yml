@@ -34,7 +34,7 @@ jobs:
         reports: coverage/*/coverage.cobertura.xml
         targetdir: coveragereport
         assemblyfilters: -ShadowBuddy.Services
-        reporttypes: Html;HtmlInline;MarkdownSummaryGithub;Badges;Cobertura
+        reporttypes: Html;HtmlInline;MarkdownSummaryGithub;Badges;TextSummary
 
     - name: Upload coverage report artifact
       uses: actions/upload-artifact@v2.2.3
