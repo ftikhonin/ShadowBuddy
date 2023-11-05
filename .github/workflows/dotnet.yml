@@ -34,4 +34,5 @@ jobs:
         reports: coverage/*/coverage.cobertura.xml
         targetdir: coveragereport
         assemblyfilters: -ShadowBuddy.Services
+        reporttypes: Html;MarkdownSummaryGithub;Badges
         
