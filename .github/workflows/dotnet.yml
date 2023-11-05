@@ -39,5 +39,5 @@ jobs:
         indicators: true
         output: both
         thresholds: '60 80'
-        assemblyfilters: '-" ShadowBuddy.Services"'
+        assemblyfilters: -ShadowBuddy.Services
         
