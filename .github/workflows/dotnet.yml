@@ -30,7 +30,7 @@ jobs:
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.26
       with:
-        reports: tests/*/TestResults/*/coverage.cobertura.xml
+        reports: coverage/*/coverage.cobertura.xml
         targetdir: coveragereport
         assemblyfilters: -ShadowBuddy.Services
         
