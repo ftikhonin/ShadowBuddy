@@ -38,7 +38,6 @@ jobs:
     
     - name: ShowFiles  
       run: ls coveragereport
-      run: cat coveragereport Summary.txt
 
     - name: Upload coverage report artifact
       uses: actions/upload-artifact@v2.2.3
