@@ -35,6 +35,8 @@ jobs:
         targetdir: coveragereport
         assemblyfilters: -ShadowBuddy.Services
         reporttypes: Html;HtmlInline;MarkdownSummaryGithub;Badges;TextSummary
+    
+    - name: ShowFiles  
       run: ls
 
     - name: Upload coverage report artifact
