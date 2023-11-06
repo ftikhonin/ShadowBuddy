@@ -37,7 +37,8 @@ jobs:
         reporttypes: Html;HtmlInline;MarkdownSummaryGithub;Badges;TextSummary
     
     - name: ShowFiles  
-      run: ls
+      run: ls coveragereport
+      run: cat coveragereport Summary.txt
 
     - name: Upload coverage report artifact
       uses: actions/upload-artifact@v2.2.3
